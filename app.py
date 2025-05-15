@@ -38,7 +38,7 @@ def extract_text_from_image(saved_image):
     with st.spinner("🧠 استخراج النص من الصورة..."):
        # image = Image.open(saved_image)
         ingredients_text = pytesseract.image_to_string(saved_image, lang="eng+ara+sve")
-        st.text_area("📄 النص المستخرج من الصورة:", value=extracted_text, height=200)
+        st.text_area("📄 النص المستخرج من الصورة:", value=ingredients_text , height=200)
     return ingredients_text
     
 #  تحليل المكونات باستخدام GPT-4
