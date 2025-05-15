@@ -16,7 +16,7 @@ def get_ocr_from_camera():
 
 # 🔵 حفظ الصورة وتحليلها لاحقًا
  if image_data is not None:
-    # نحفظ الصورة كملف محلي
+    # نحفظ الصورة كملف محلي 
     with open("saved_image.jpg", "wb") as f:
         f.write(image_data.getbuffer())
     st.success("✅ تم حفظ الصورة بنجاح باسم saved_image.jpg")
@@ -99,7 +99,7 @@ else:
 # وضع الزر في العمود الأوسط
 with col2:        
     # تحليل النص باستخدام GPT-4
- if st.button("🔍 تحليل النص", use_container_width=True):
+       st.button("🔍 تحليل النص", use_container_width=True)
    
        st.spinner("🤖 تحليل المكونات باستخدام GPT-4...")
     
