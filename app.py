@@ -7,7 +7,7 @@ from PIL import Image
 import os
 import io
 
-from arabic_support import support_arabic_text
+ import support_arabic_text
 
 # تفعيل دعم النصوص العربية في جميع المكونات
 support_arabic_text(all=True)
