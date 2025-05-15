@@ -9,8 +9,8 @@ import io
 
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
- st.write("OCRالتقاط صورة بالكاميرا لل .")
- image_data = st.camera_input("التقط صورة بالمكونات")
+ #st.write("التقاط صورة بواسطة الكاميرا ")
+ image_data = st.camera_input(":التقاط صورة بواسطة الكاميرا ")
 
 # 🔵 حفظ الصورة وتحليلها لاحقًا
  if image_data is not None:
@@ -24,8 +24,7 @@ def get_ocr_from_camera():
     
 #رفع صورة لملصق المنتج
 def upload_image_ocr_from_folder():
- st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل المكونات لمعرفة ما إذا كانت تحتوي على مشتقات من الحشرات.")
- uploaded_file = st.file_uploader("📸 ارفع صورة المكونات", type=["png", "jpg", "jpeg"])
+ uploaded_file = st.file_uploader("📸: ارفع صورة ", type=["png", "jpg", "jpeg"])
 
  return uploaded_file
 
@@ -63,10 +62,11 @@ openai.api_key = os.getenv("OPENAI_API_KEY") or "ضع_مفتاحك_هنا"
 # إذا كنت على Windows:
 #pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
-st.set_page_config(page_title="تحليل المكونات من صورة", page_icon="📷", layout="centered")
+st.set_page_config(page_title="تحليل المكونات الغذائية", page_icon="🐞", layout="centered")
 
+st.title("🐞 تحليل المكونات الغذائية")
+st.write("تحقق مما إذا كانت قائمة المكونات تحتوي على مشتقات من الحشرات.")
 
-st.title("📸  التقاط أو رفع صورة لتحليل المكونات أو أدخل المكونات يدويًا")
 manual_input = st.text_area("أو أدخل المكونات يدويًا")
 
 
@@ -75,17 +75,18 @@ saved_image = get_ocr_from_camera()
     
 #رفع صورة لملصق المنتج
 saved_image = upload_image_ocr_from_folder()
-st.title("📷  🟡 هنا يمكنك استخدام OCR تحليل على الصورةا")
+st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل المكونات لمعرفة ما إذا كانت تحتوي على مشتقات من الحشرات.")
+
 if saved_image:
  st.image(saved_image, caption="📷 الصورة التي تم رفعها", use_column_width=True)
 else:
  st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
 
   
- if st.button("تحليل"):
-   if saved_image:
+ 
+if saved_image:
         ingredients_text = extract_text_from_image(saved_image)
- else:
+else:
         ingredients_text = manual_input
         
     # تحليل النص باستخدام GPT-4
