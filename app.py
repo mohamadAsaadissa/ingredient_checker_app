@@ -7,10 +7,10 @@ from PIL import Image
 import os
 import io
 
-# import support_arabic_text
+from arabic_support import support_arabic_text
 
 # تفعيل دعم النصوص العربية في جميع المكونات
-#support_arabic_text(all=True)
+support_arabic_text(all=True)
 
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
