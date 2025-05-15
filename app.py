@@ -66,6 +66,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY") or "ضع_مفتاحك_هنا"
 
 st.set_page_config(page_title="تحليل المكونات الغذائية", page_icon="🐞", layout="centered")
 
+# إنشاء ثلاثة أعمدة بنسبة عرض متساوية
+col1, col2, col3 = st.columns([1, 1, 1])
+
 
 # تفعيل دعم النصوص العربية في جميع المكونات
 support_arabic_text(all=True)
@@ -93,9 +96,10 @@ if saved_image:
         ingredients_text = extract_text_from_image(saved_image)
 else:
         ingredients_text = manual_input
-        
+# وضع الزر في العمود الأوسط
+with col2:        
     # تحليل النص باستخدام GPT-4
-if st.button("🔍 تحليل النص"):
+ if st.button("🔍 تحليل النص", use_container_width=True):
    
        st.spinner("🤖 تحليل المكونات باستخدام GPT-4...")
     
