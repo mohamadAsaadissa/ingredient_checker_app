@@ -1,3 +1,4 @@
+# app.py
 
 import streamlit as st
 import openai
@@ -6,10 +7,10 @@ from PIL import Image
 import os
 
 # OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY") or "ضع_مفتاحك_هنا"
+openai.api_key = os.getenv("OENAI_API_KEY") or "ضع_مفتاحك_هنا"
 
 # إذا كنت على Windows:
-# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 st.set_page_config(page_title="تحليل المكونات من صورة", page_icon="📷", layout="centered")
 
