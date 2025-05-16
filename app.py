@@ -94,14 +94,14 @@ if st.session_state.show_message_input:
  ingredients_text = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
  st.session_state.show_message_camera = False
  st.session_state.show_message_upload = False
-
+else:
 # 🟢 التقاط صورة بالكاميرا
  if st.session_state.show_message_upload:
   saved_image = get_ocr_from_camera()
   st.session_state.show_message_input = False
   st.session_state.show_message_camera= False
 
- 
+ else: 
 #رفع صورة لملصق المنتج
   if st.session_state.show_message_camera:
    saved_image = upload_image_ocr_from_folder()
