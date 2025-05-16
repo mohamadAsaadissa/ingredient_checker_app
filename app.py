@@ -46,43 +46,66 @@ def extract_text_from_image(saved_image):
 
     
     # دالة لتبديل حالة العرض
-def toggle_message():
+def toggle_message_input():
     st.session_state.show_message = not st.session_state.show_message
+
+def toggle_message_camera():
+    st.session_state.show_message = not st.session_state.show_message
+
+def toggle_message_upload():
+    st.session_state.show_message = not st.session_state.show_message
+
 
 # OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY") or "ضع_مفتاحك_هنا"
 
 # إذا كنت على Windows:
 #pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-
+# تفعيل دعم النصوص العربية في جميع المكونات
+support_arabic_text(all=True)
 st.set_page_config(page_title="تحليل المكونات الغذائية", page_icon="🐞", layout="centered")
 
 # التحقق من وجود المفتاح في حالة الجلسة، وإذا لم يكن موجودًا، يتم تهيئته
-if 'show_message' not in st.session_state:
-    st.session_state.show_message = True
+if 'show_message_input' not in st.session_state:
+    st.session_state.show_message_input = True
+if 'show_message_camera' not in st.session_state:
+    st.session_state.show_message_camera = False
+if 'show_message_upload' not in st.session_state:
+    st.session_state.show_message_upload = False
 # إنشاء ثلاثة أعمدة بنسبة عرض متساوية
-col1, col2, col3 = st.columns([1, 2, 1])
+col1, col2, col3 = st.columns([1, 1, 1])
 
 
-# تفعيل دعم النصوص العربية في جميع المكونات
-support_arabic_text(all=True)
 st.title("🐞 تحليل المكونات الغذائية")
 
 st.write("تحقق مما إذا كانت قائمة المكونات تحتوي على مشتقات من الحشرات.")
 
 
     # زر لتبديل عرض الرسالة
-st.button("✍️ أدخل قائمة المكونات", on_click=toggle_message, use_container_width=True)
+st.button("✍️ أدخل قائمة المكونات", on_click=toggle_message_input, use_container_width=True)
+st.button("📸 رفع الصورة", on_click=toggle_message_upload, use_container_width=True)
+st.button("التقاط صورة", on_click=toggle_message_camera, use_container_width=True)
 # إدخال المستخدم
+
  #عرض أو إخفاء الرسالة بناءً على حالة الجلسة
-if st.session_state.show_message:
+if st.session_state.show_message_input:
  ingredients_text = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
+ st.session_state.show_message_camera = False
+ st.session_state.show_message_upload = False
 
 # 🟢 التقاط صورة بالكاميرا
-saved_image = get_ocr_from_camera()
+if st.session_state.show_message_upload:
+ saved_image = get_ocr_from_camera()
+ st.session_state.show_message_input = False
+ st.session_state.show_message_camera= False
+
     
 #رفع صورة لملصق المنتج
-saved_image = upload_image_ocr_from_folder()
+if st.session_state.show_message_camera:
+ saved_image = upload_image_ocr_from_folder()
+ st.session_state.show_message_input = False
+ st.session_state.show_message_upload = False
+
 st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل المكونات لمعرفة ما إذا كانت تحتوي على مشتقات من الحشرات.")
 
 if saved_image:
