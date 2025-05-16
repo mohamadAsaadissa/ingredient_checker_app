@@ -73,7 +73,7 @@ if 'show_message_camera' not in st.session_state:
 if 'show_message_upload' not in st.session_state:
     st.session_state.show_message_upload = False
 # إنشاء ثلاثة أعمدة بنسبة عرض متساوية
-col1, col2, col3 = st.columns([1, 3, 1])
+col1, col2, col3 = st.columns([1, 4, 1])
 
 saved_image =""
 ingredients_text=""
