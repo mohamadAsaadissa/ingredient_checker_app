@@ -73,13 +73,12 @@ if 'show_message_camera' not in st.session_state:
 if 'show_message_upload' not in st.session_state:
     st.session_state.show_message_upload = False
 # إنشاء ثلاثة أعمدة بنسبة عرض متساوية
-col1, col2, col3 = st.columns([1, 4, 1])
+col1, col2, col3 = st.columns([1, 3, 1])
 
 saved_image =""
 ingredients_text=""
 with col2:
  st.title("🐞 تحليل المكونات الغذائية")
-
 
 st.write("تحقق مما إذا كانت قائمة المكونات تحتوي على مشتقات من الحشرات.")
 
@@ -95,19 +94,19 @@ if st.session_state.show_message_input:
  ingredients_text = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
  st.session_state.show_message_camera = False
  st.session_state.show_message_upload = False
-
+else:
 # 🟢 التقاط صورة بالكاميرا
-if st.session_state.show_message_upload:
- saved_image = get_ocr_from_camera()
- st.session_state.show_message_input = False
- st.session_state.show_message_camera= False
+ if st.session_state.show_message_upload:
+  saved_image = get_ocr_from_camera()
+  st.session_state.show_message_input = False
+  st.session_state.show_message_camera= False
 
-    
+ else: 
 #رفع صورة لملصق المنتج
-if st.session_state.show_message_camera:
- saved_image = upload_image_ocr_from_folder()
- st.session_state.show_message_input = False
- st.session_state.show_message_upload = False
+  if st.session_state.show_message_camera:
+   saved_image = upload_image_ocr_from_folder()
+   st.session_state.show_message_input = False
+   st.session_state.show_message_upload = False
 
 st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل المكونات لمعرفة ما إذا كانت تحتوي على مشتقات من الحشرات.")
 
