@@ -115,7 +115,7 @@ if saved_image:
 with col2:
     # تحليل النص باستخدام GPT-4
           st.button("🔍 تحليل النص", use_container_width=True)
-          if not ingredients_text.strip():
-           st.warning("يرجى إدخال مكونات أولاً")
+         # if not ingredients_text.strip():
+          # st.warning("يرجى إدخال مكونات أولاً")
            analyze_ingredients_with_gpt(ingredients_text)
        
