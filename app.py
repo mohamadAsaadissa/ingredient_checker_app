@@ -35,7 +35,9 @@ def get_ocr_from_camera():
     for (bbox, text, confidence) in results:
         top_left = tuple(bbox[0])
         bottom_right = tuple(bbox[2])
-        draw.rectangle([top_left, bottom_right], outline="red", width=3)
+        #draw.rectangle([top_left, bottom_right], outline="red", width=3)
+        draw.rectangle([100, 50], outline="red", width=3)
+
     
 
  return img_file
