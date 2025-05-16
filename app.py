@@ -76,6 +76,7 @@ if 'show_message_upload' not in st.session_state:
 col1, col2, col3 = st.columns([1, 1, 1])
 
 saved_image =""
+ingredients_text=""
 st.title("🐞 تحليل المكونات الغذائية")
 
 st.write("تحقق مما إذا كانت قائمة المكونات تحتوي على مشتقات من الحشرات.")
