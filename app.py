@@ -1,9 +1,11 @@
 # app.py
 
+import easyocr
 import streamlit as st
 import openai
 import pytesseract
-from PIL import Image
+from PIL import Image,ImageDraw
+import numpy as np
 import os
 import io
 
@@ -17,10 +19,28 @@ def get_ocr_from_camera():
 # 🔵 حفظ الصورة وتحليلها لاحقًا
  if image_data is not None:
     # نحفظ الصورة كملف محلي 
-    with open("saved_image.jpg", "wb") as f:
-        f.write(image_data.getbuffer())
+    with  open("saved_image.jpg", "wb").convert("RGB") as f:
+        img = f.write(image_data.getbuffer())
     st.success("✅ تم حفظ الصورة بنجاح باسم saved_image.jpg")
     
+    img_np = np.array(img)
+
+    # إنشاء كائن EasyOCR
+    reader = easyocr.Reader(['ar', 'en','sv'])  # دعم العربية والإنجليزية
+
+    # تنفيذ OCR على الصورة
+    with st.spinner("🔍 جارٍ تحليل الصورة..."):
+        results = reader.readtext(img_np)
+    # رسم المستطيلات حول النصوص المكتشفة
+    draw = ImageDraw.Draw(img)
+    for (bbox, text, confidence) in results:
+        top_left = tuple(bbox[0])
+        bottom_right = tuple(bbox[2])
+        draw.rectangle([top_left, bottom_right], outline="red", width=3)
+
+    # عرض الصورة مع المستطيلات
+    st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_column_width=True)
+
     # st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
  return image_data
     
@@ -36,8 +56,11 @@ def upload_image_ocr_from_folder():
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
     with st.spinner("🧠 استخراج النص من الصورة..."):
-       # image = Image.open(saved_image)
+        # إنشاء كائن EasyOCR
+       # reader = easyocr.Reader(['ar', 'en','sv'])  
+        image = Image.open(saved_image)
         ingredients_text = pytesseract.image_to_string(saved_image, lang="eng+ara+sve")
+       # ingredients_text = reader.readtext(saved_image)
         st.text_area("📄 النص المستخرج من الصورة:", value=ingredients_text , height=200)
     return ingredients_text
     
@@ -74,9 +97,11 @@ if 'show_message_upload' not in st.session_state:
     st.session_state.show_message_upload = False
 # إنشاء ثلاثة أعمدة بنسبة عرض متساوية
 col1, col2, col3 = st.columns([1, 4, 1])
-
+# Default values
 saved_image =""
 ingredients_text=""
+
+
 with col2:
  st.title("🐞 تحليل المكونات الغذائية")
 
