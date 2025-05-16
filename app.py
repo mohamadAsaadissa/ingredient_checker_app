@@ -43,24 +43,7 @@ def extract_text_from_image(saved_image):
     
 #  تحليل المكونات باستخدام GPT-4
 def analyze_ingredients_with_gpt(ingredients_text):
- with st.spinner("جاري التحليل باستخدام GPT-4..."):
-    prompt = f"""
-    هل تحتوي قائمة المكونات التالية على أي مكون مشتق من الحشرات؟
-    إذا كان نعم، اذكر المكون ووضح مصدره. إذا لا، قل أنها خالية.
-    قائمة المكونات:
-    {ingredients_text}
-    """
-    try:
-        response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.2
-    )
-        result= response['choices'][0]['message']['content']
-        st.success("✅ نتيجة التحليل:")
-        st.markdown(result)
-    except Exception as e:
-         st.error(f"❌ خطأ أثناء الاتصال بـ GPT-4: {e}")
+
      return true
     
     # دالة لتبديل حالة العرض
@@ -118,5 +101,21 @@ with col2:
           st.button("🔍 تحليل النص", use_container_width=True)
          # if not ingredients_text.strip():
           # st.warning("يرجى إدخال مكونات أولاً")
-          if_true= analyze_ingredients_with_gpt(ingredients_text)
-       
+ with st.spinner("جاري التحليل باستخدام GPT-4..."):
+    prompt = f"""
+    هل تحتوي قائمة المكونات التالية على أي مكون مشتق من الحشرات؟
+    إذا كان نعم، اذكر المكون ووضح مصدره. إذا لا، قل أنها خالية.
+    قائمة المكونات:
+    {ingredients_text}
+    """
+    try:
+        response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.2
+    )
+        result= response['choices'][0]['message']['content']
+        st.success("✅ نتيجة التحليل:")
+        st.markdown(result)
+    except Exception as e:
+         st.error(f"❌ خطأ أثناء الاتصال بـ GPT-4: {e}")       
