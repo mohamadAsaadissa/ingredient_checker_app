@@ -1,6 +1,5 @@
 # app.py
 
-from csv import reader
 import easyocr
 import streamlit as st
 import openai
