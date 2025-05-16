@@ -87,13 +87,13 @@ st.title("🐞 تحليل المكونات الغذائية")
 
 st.write("تحقق مما إذا كانت قائمة المكونات تحتوي على مشتقات من الحشرات.")
 
-with col1:
+
     # زر لتبديل عرض الرسالة
     st.button("✍️ أدخل قائمة المكونات", on_click=toggle_message, use_container_width=True)
 # إدخال المستخدم
  #عرض أو إخفاء الرسالة بناءً على حالة الجلسة
 if st.session_state.show_message:
- manual_input = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
+ ingredients_text = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
 
 # 🟢 التقاط صورة بالكاميرا
 saved_image = get_ocr_from_camera()
@@ -109,13 +109,10 @@ else:
 
 if saved_image:
         ingredients_text = extract_text_from_image(saved_image)
-else:
-        ingredients_text = manual_input
- 
  
   
 # وضع الزر في العمود الأوسط
-with col2:        
+    
     # تحليل النص باستخدام GPT-4
           st.button("🔍 تحليل النص", use_container_width=True)
           if not ingredients_text.strip():
