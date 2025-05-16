@@ -112,7 +112,7 @@ if saved_image:
  
   
 # وضع الزر في العمود الأوسط
-    
+with col2:
     # تحليل النص باستخدام GPT-4
           st.button("🔍 تحليل النص", use_container_width=True)
           if not ingredients_text.strip():
