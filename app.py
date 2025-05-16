@@ -1,5 +1,6 @@
 # app.py
 
+from csv import reader
 import easyocr
 import streamlit as st
 import openai
@@ -36,7 +37,7 @@ def get_ocr_from_camera():
         top_left = tuple(bbox[0])
         bottom_right = tuple(bbox[2])
         #draw.rectangle([top_left, bottom_right], outline="red", width=3)
-        draw.rectangle(50, 20, outline="red", width=3)
+        draw.rectangle([100, 50], outline="red", width=3)
 
     
 
@@ -58,11 +59,16 @@ def extract_text_from_image(saved_image):
     with st.spinner("🧠 استخراج النص من الصورة..."):
         # إنشاء كائن EasyOCR
        # reader = easyocr.Reader(['ar', 'en','sv'])  
-        image = Image.open(saved_image)
-        ingredients_text = pytesseract.image_to_string(saved_image, lang="eng+ara+sve")
-       # ingredients_text = reader.readtext(saved_image)
-        st.text_area("📄 النص المستخرج من الصورة:", value=ingredients_text , height=200)
-    return ingredients_text
+       # image = Image.open(saved_image)
+         img_np = np.array(saved_image)
+        #ingredients_text = pytesseract.image_to_string(saved_image, lang="eng+ara+sve")
+         results = reader.readtext(img_np)
+       # عرض النصوص المكتشفة
+         st.subheader("📝 النصوص المكتشفة:")
+    for (bbox, text, confidence) in results:
+        st.write(f"- {text} (الدقة: {confidence:.2f})")
+       # st.text_area("📄 النص المستخرج من الصورة:", value=ingredients_text , height=200)
+    return results
     
 #  تحليل المكونات باستخدام GPT-4
 #def analyze_ingredients_with_gpt(ingredients_text):
