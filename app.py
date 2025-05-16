@@ -26,7 +26,7 @@ def get_ocr_from_camera():
     img_np = np.array(img)
 
     # إنشاء كائن EasyOCR
-    reader = easyocr.Reader(['ar', 'en','sv'])  # دعم العربية والإنجليزية
+    reader = easyocr.Reader(['ar', 'en'])  # دعم العربية والإنجليزية
 
     # تنفيذ OCR على الصورة
     with st.spinner("🔍 جارٍ تحليل الصورة..."):
