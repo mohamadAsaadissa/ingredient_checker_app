@@ -42,9 +42,8 @@ def extract_text_from_image(saved_image):
     return ingredients_text
     
 #  تحليل المكونات باستخدام GPT-4
-def analyze_ingredients_with_gpt(ingredients_text):
+#def analyze_ingredients_with_gpt(ingredients_text):
 
-     return true
     
     # دالة لتبديل حالة العرض
 def toggle_message():
@@ -101,7 +100,7 @@ with col2:
           st.button("🔍 تحليل النص", use_container_width=True)
          # if not ingredients_text.strip():
           # st.warning("يرجى إدخال مكونات أولاً")
- #with st.spinner("جاري التحليل باستخدام GPT-4..."):
+with st.spinner("جاري التحليل باستخدام GPT-4..."):
     prompt = f"""
     هل تحتوي قائمة المكونات التالية على أي مكون مشتق من الحشرات؟
     إذا كان نعم، اذكر المكون ووضح مصدره. إذا لا، قل أنها خالية.
