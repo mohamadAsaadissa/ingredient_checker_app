@@ -24,7 +24,7 @@ def get_ocr_from_camera():
     img_np = np.array(img)
               # عرض الصورة مع المستطيلات
 
-    st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_column_width=True)
+    st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_container_width=True)
     # إنشاء كائن EasyOCR
     reader = easyocr.Reader(['ar', 'en'])      # دعم العربية والإنجليزية
  
