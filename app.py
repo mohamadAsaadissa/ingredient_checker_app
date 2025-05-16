@@ -61,7 +61,7 @@ st.set_page_config(page_title="تحليل المكونات الغذائية", pa
 if 'show_message' not in st.session_state:
     st.session_state.show_message = True
 # إنشاء ثلاثة أعمدة بنسبة عرض متساوية
-col1, col2, col3 = st.columns([1, 1, 1],[1, 1, 1],[1, 1, 1],[1, 2, 1])
+col1, col2, col3 = st.columns([1, 2, 1])
 
 
 # تفعيل دعم النصوص العربية في جميع المكونات
