@@ -62,9 +62,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY") or "ضع_مفتاحك_هنا"
 # إذا كنت على Windows:
 #pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 # تفعيل دعم النصوص العربية في جميع المكونات
-support_arabic_text(all=True)
-st.set_page_config(page_title="تحليل المكونات الغذائية", page_icon="🐞", layout="centered")
 
+st.set_page_config(page_title="تحليل المكونات الغذائية", page_icon="🐞", layout="centered")
+support_arabic_text(all=True)
 # التحقق من وجود المفتاح في حالة الجلسة، وإذا لم يكن موجودًا، يتم تهيئته
 if 'show_message_input' not in st.session_state:
     st.session_state.show_message_input = True
@@ -83,8 +83,8 @@ st.write("تحقق مما إذا كانت قائمة المكونات تحتوي
 
     # زر لتبديل عرض الرسالة
 st.button("✍️ أدخل قائمة المكونات", on_click=toggle_message_input, use_container_width=True)
-st.button("📸 رفع الصورة", on_click=toggle_message_upload, use_container_width=True)
-st.button("التقاط صورة", on_click=toggle_message_camera, use_container_width=True)
+st.button("🧠 رفع الصورة", on_click=toggle_message_upload, use_container_width=True)
+st.button("📸 التقاط صورة", on_click=toggle_message_camera, use_container_width=True)
 # إدخال المستخدم
 
  #عرض أو إخفاء الرسالة بناءً على حالة الجلسة
