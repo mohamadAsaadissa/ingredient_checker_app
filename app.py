@@ -61,6 +61,7 @@ def analyze_ingredients_with_gpt(ingredients_text):
         st.markdown(result)
     except Exception as e:
          st.error(f"❌ خطأ أثناء الاتصال بـ GPT-4: {e}")
+     return true
     
     # دالة لتبديل حالة العرض
 def toggle_message():
@@ -117,5 +118,5 @@ with col2:
           st.button("🔍 تحليل النص", use_container_width=True)
          # if not ingredients_text.strip():
           # st.warning("يرجى إدخال مكونات أولاً")
-           analyze_ingredients_with_gpt(ingredients_text)
+          if_true= analyze_ingredients_with_gpt(ingredients_text)
        
