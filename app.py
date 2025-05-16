@@ -47,13 +47,13 @@ def extract_text_from_image(saved_image):
     
     # دالة لتبديل حالة العرض
 def toggle_message_input():
-    st.session_state.show_message = not st.session_state.show_message
+    st.session_state.show_message_input = not st.session_state.show_message_input
 
 def toggle_message_camera():
-    st.session_state.show_message = not st.session_state.show_message
+    st.session_state.show_message_camera = not st.session_state.show_message_camera
 
 def toggle_message_upload():
-    st.session_state.show_message = not st.session_state.show_message
+    st.session_state.show_message_upload = not st.session_state.show_message_upload
 
 
 # OpenAI API key
