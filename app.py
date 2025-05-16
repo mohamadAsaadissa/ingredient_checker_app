@@ -47,13 +47,19 @@ def extract_text_from_image(saved_image):
     
     # دالة لتبديل حالة العرض
 def toggle_message_input():
-    st.session_state.show_message_input = not st.session_state.show_message_input
+    st.session_state.show_message_input = True
+    st.session_state.show_message_upload = False
+    st.session_state.show_message_camera= False
 
 def toggle_message_camera():
-    st.session_state.show_message_camera = not st.session_state.show_message_camera
+    st.session_state.show_message_camera = True
+    st.session_state.show_message_input = False
+    st.session_state.show_message_upload= False
 
 def toggle_message_upload():
-    st.session_state.show_message_upload = not st.session_state.show_message_upload
+    st.session_state.show_message_upload = True
+    st.session_state.show_message_input = False
+    st.session_state.show_message_camera= False
 
 
 # OpenAI API key
@@ -92,22 +98,15 @@ st.button("📸 التقاط صورة", on_click=toggle_message_camera, use_cont
  #عرض أو إخفاء الرسالة بناءً على حالة الجلسة
 if st.session_state.show_message_input:
  ingredients_text = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
- st.session_state.show_message_camera = False
- st.session_state.show_message_upload = False
-else:
+
 # 🟢 التقاط صورة بالكاميرا
  if st.session_state.show_message_upload:
   saved_image = get_ocr_from_camera()
-  st.session_state.show_message_input = False
-  st.session_state.show_message_camera= False
 
- else: 
 #رفع صورة لملصق المنتج
   if st.session_state.show_message_camera:
    saved_image = upload_image_ocr_from_folder()
-   st.session_state.show_message_input = False
-   st.session_state.show_message_upload = False
-
+ 
 st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل المكونات لمعرفة ما إذا كانت تحتوي على مشتقات من الحشرات.")
 
 if saved_image:
