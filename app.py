@@ -28,10 +28,10 @@ def get_ocr_from_camera():
 def upload_image_ocr_from_folder():
  
  uploaded_file = st.file_uploader("📸: ارفع صورة ", type=["png", "jpg", "jpeg"])
- if uploaded_file:
-    saved_image = st.image(uploaded_file, caption="📷 الصورة التي تم رفعها", use_column_width=True)
+# if uploaded_file:
+   # saved_image = st.image(uploaded_file, caption="📷 الصورة التي تم رفعها", use_column_width=True)
 
- return saved_image
+ return uploaded_file
 
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
