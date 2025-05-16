@@ -40,6 +40,7 @@ def extract_text_from_image(saved_image):
     
 #  تحليل المكونات باستخدام GPT-4
 def analyze_ingredients_with_gpt(ingredients_text):
+ with st.spinner("جاري التحليل باستخدام GPT-4..."):
     prompt = f"""
     هل تحتوي قائمة المكونات التالية على أي مكون مشتق من الحشرات؟
     إذا كان نعم، اذكر المكون ووضح مصدره. إذا لا، قل أنها خالية.
@@ -75,8 +76,9 @@ support_arabic_text(all=True)
 st.title("🐞 تحليل المكونات الغذائية")
 st.write("تحقق مما إذا كانت قائمة المكونات تحتوي على مشتقات من الحشرات.")
 
-manual_input = st.text_area("أو أدخل المكونات يدويًا")
 
+# إدخال المستخدم
+ingredients_text = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
 
 # 🟢 التقاط صورة بالكاميرا
 saved_image = get_ocr_from_camera()
@@ -90,18 +92,20 @@ if saved_image:
 else:
  st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
 
-  
- 
 if saved_image:
         ingredients_text = extract_text_from_image(saved_image)
 else:
         ingredients_text = manual_input
+ 
+ 
+  
 # وضع الزر في العمود الأوسط
 with col2:        
     # تحليل النص باستخدام GPT-4
-       st.button("🔍 تحليل النص", use_container_width=True)
-   
-       st.spinner("🤖 تحليل المكونات باستخدام GPT-4...")
+         st.button("🔍 تحليل النص", use_container_width=True)
+        if not ingredients.strip():
+        st.warning("يرجى إدخال مكونات أولاً")
+      
     
        analyze_ingredients_with_gpt(ingredients_text)
        
