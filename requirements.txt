@@ -3,3 +3,4 @@ pytesseract
 openai
 pillow
 streamlit-arabic-support-wrapper
+easyocr
