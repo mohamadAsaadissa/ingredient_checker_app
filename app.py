@@ -59,6 +59,8 @@ def extract_text_from_image(saved_image):
         # إنشاء كائن EasyOCR
        # reader = easyocr.Reader(['ar', 'en','sv'])  
        # image = Image.open(saved_image)
+       # إنشاء كائن EasyOCR
+         reader = easyocr.Reader(['ar', 'en'])  # دعم العربية والإنجليزية
          img_np = np.array(saved_image)
         #ingredients_text = pytesseract.image_to_string(saved_image, lang="eng+ara+sve")
          results = reader.readtext(img_np)
@@ -141,13 +143,14 @@ else:
 st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل المكونات لمعرفة ما إذا كانت تحتوي على مشتقات من الحشرات.")
 
 if saved_image:
- st.image(saved_image, caption="📷 الصورة التي تم رفعها", use_column_width=True)
+ # قراءة الصورة وتحويلها إلى مصفوفة NumPy
+    img = Image.open(saved_image).convert("RGB")
+    ingredients_text = extract_text_from_image(img)
+ 
 else:
  st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
 
-if saved_image:
-        ingredients_text = extract_text_from_image(saved_image)
- 
+       
   
 # وضع الزر في العمود الأوسط
 
