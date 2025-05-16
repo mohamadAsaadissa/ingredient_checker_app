@@ -14,21 +14,20 @@ from arabic_support import support_arabic_text
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
  #st.write("التقاط صورة بواسطة الكاميرا ")
- image_data = st.camera_input(":التقاط صورة بواسطة الكاميرا ")
+  # التقاط صورة من الكاميرا
+ img_file = st.camera_input("التقط صورة")
 
-# 🔵 حفظ الصورة وتحليلها لاحقًا
- if image_data is not None:
-    # نحفظ الصورة كملف محلي 
-    with  open("saved_image.jpg", "wb") as f:
-        img = f.write(image_data.getbuffer())
-    st.success("✅ تم حفظ الصورة بنجاح باسم saved_image.jpg")
-    
+ if img_file is not None:
+    # قراءة الصورة وتحويلها إلى مصفوفة NumPy
+    img = Image.open(img_file).convert("RGB")
     img_np = np.array(img)
+              # عرض الصورة مع المستطيلات
 
+    st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_column_width=True)
     # إنشاء كائن EasyOCR
-    reader = easyocr.Reader(['ar', 'en'])  # دعم العربية والإنجليزية
-
-    # تنفيذ OCR على الصورة
+    reader = easyocr.Reader(['ar', 'en'])      # دعم العربية والإنجليزية
+ 
+ # تنفيذ OCR على الصورة
     with st.spinner("🔍 جارٍ تحليل الصورة..."):
         results = reader.readtext(img_np)
     # رسم المستطيلات حول النصوص المكتشفة
@@ -37,12 +36,11 @@ def get_ocr_from_camera():
         top_left = tuple(bbox[0])
         bottom_right = tuple(bbox[2])
         draw.rectangle([top_left, bottom_right], outline="red", width=3)
+    
 
-    # عرض الصورة مع المستطيلات
-    st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_column_width=True)
+ return img_file
 
     # st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
- return image_data
     
 #رفع صورة لملصق المنتج
 def upload_image_ocr_from_folder():
