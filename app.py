@@ -73,11 +73,13 @@ if 'show_message_camera' not in st.session_state:
 if 'show_message_upload' not in st.session_state:
     st.session_state.show_message_upload = False
 # إنشاء ثلاثة أعمدة بنسبة عرض متساوية
-col1, col2, col3 = st.columns([1, 1, 1])
+col1, col2, col3 = st.columns([1, 2, 1])
 
 saved_image =""
 ingredients_text=""
-st.title("🐞 تحليل المكونات الغذائية")
+with col2:
+ st.title("🐞 تحليل المكونات الغذائية")
+
 
 st.write("تحقق مما إذا كانت قائمة المكونات تحتوي على مشتقات من الحشرات.")
 
