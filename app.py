@@ -19,7 +19,7 @@ def get_ocr_from_camera():
 # 🔵 حفظ الصورة وتحليلها لاحقًا
  if image_data is not None:
     # نحفظ الصورة كملف محلي 
-    with  open("saved_image.jpg", "wb").convert("RGB") as f:
+    with  open("saved_image.jpg", "wb") as f:
         img = f.write(image_data.getbuffer())
     st.success("✅ تم حفظ الصورة بنجاح باسم saved_image.jpg")
     
