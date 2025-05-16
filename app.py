@@ -26,9 +26,12 @@ def get_ocr_from_camera():
     
 #رفع صورة لملصق المنتج
 def upload_image_ocr_from_folder():
+ 
  uploaded_file = st.file_uploader("📸: ارفع صورة ", type=["png", "jpg", "jpeg"])
+ if uploaded_file:
+    saved_image = st.image(uploaded_file, caption="📷 الصورة التي تم رفعها", use_column_width=True)
 
- return uploaded_file
+ return saved_image
 
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
@@ -78,7 +81,7 @@ st.write("تحقق مما إذا كانت قائمة المكونات تحتوي
 
 
 # إدخال المستخدم
-ingredients_text = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
+manual_input = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
 
 # 🟢 التقاط صورة بالكاميرا
 saved_image = get_ocr_from_camera()
@@ -102,10 +105,8 @@ else:
 # وضع الزر في العمود الأوسط
 with col2:        
     # تحليل النص باستخدام GPT-4
-         st.button("🔍 تحليل النص", use_container_width=True)
-        if not ingredients.strip():
-        st.warning("يرجى إدخال مكونات أولاً")
-      
-    
-       analyze_ingredients_with_gpt(ingredients_text)
+          st.button("🔍 تحليل النص", use_container_width=True)
+          if not ingredients_text.strip():
+           st.warning("يرجى إدخال مكونات أولاً")
+           analyze_ingredients_with_gpt(ingredients_text)
        
