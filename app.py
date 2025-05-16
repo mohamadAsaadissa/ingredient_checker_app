@@ -62,6 +62,10 @@ def analyze_ingredients_with_gpt(ingredients_text):
     except Exception as e:
          st.error(f"❌ خطأ أثناء الاتصال بـ GPT-4: {e}")
     
+    # دالة لتبديل حالة العرض
+def toggle_message():
+    st.session_state.show_message = not st.session_state.show_message
+
 # OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY") or "ضع_مفتاحك_هنا"
 
@@ -70,18 +74,26 @@ openai.api_key = os.getenv("OPENAI_API_KEY") or "ضع_مفتاحك_هنا"
 
 st.set_page_config(page_title="تحليل المكونات الغذائية", page_icon="🐞", layout="centered")
 
+# التحقق من وجود المفتاح في حالة الجلسة، وإذا لم يكن موجودًا، يتم تهيئته
+if 'show_message' not in st.session_state:
+    st.session_state.show_message = False
 # إنشاء ثلاثة أعمدة بنسبة عرض متساوية
-col1, col2, col3 = st.columns([1, 1, 1])
+col1, col2, col3 = st.columns([1, 2, 1])
 
 
 # تفعيل دعم النصوص العربية في جميع المكونات
 support_arabic_text(all=True)
 st.title("🐞 تحليل المكونات الغذائية")
+
 st.write("تحقق مما إذا كانت قائمة المكونات تحتوي على مشتقات من الحشرات.")
 
-
+with col1:
+    # زر لتبديل عرض الرسالة
+    st.button("✍️ أدخل قائمة المكونات", on_click=toggle_message, use_container_width=True)
 # إدخال المستخدم
-manual_input = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
+ #عرض أو إخفاء الرسالة بناءً على حالة الجلسة
+if st.session_state.show_message:
+ manual_input = st.text_area("✍️ أدخل قائمة المكونات (يمكنك نسخها من الملصق):", height=200)
 
 # 🟢 التقاط صورة بالكاميرا
 saved_image = get_ocr_from_camera()
