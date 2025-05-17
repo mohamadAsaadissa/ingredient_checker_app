@@ -47,13 +47,19 @@ def get_ocr_from_camera():
     
 #رفع صورة لملصق المنتج
 def upload_image_ocr_from_folder():
- 
-       uploaded_file = st.file_uploader("📸: ارفع صورة ", type=["png", "jpg", "jpeg"])
-    
-       image = Image.open(uploaded_file)
-       st.image(image, caption="الصورة المحمّلة", use_container_width=True)
-       return image
-
+    uploaded_file = st.file_uploader("📸: ارفع صورة ", type=["png", "jpg", "jpeg"])
+    if uploaded_file is not None:
+        try:
+            image = Image.open(uploaded_file)
+            st.image(image, caption="📷 الصورة التي تم رفعها", use_column_width=True)
+            return image
+        except Exception as e:
+            st.error(f"حدث خطأ أثناء فتح الصورة: {e}")
+            return None
+    else:
+        st.warning("لم يتم تحميل أي ملف.")
+        return None
+        
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
     reader = easyocr.Reader(['ar', 'en'])
