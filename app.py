@@ -208,9 +208,9 @@ if st.button("🔍 تحليل النص", use_container_width=True):
                         st.error(f"❌ خطأ أثناء الاتصال بـ GPT-4: {e}")
                     finally:
                         # حفظ النص المستخرج في قاعدة البيانات
-                        new_entry = OCRImage(extracted_text=extracted_text)
-                        session.add(new_entry)
-                        session.commit()
+                      #  new_entry = OCRImage(extracted_text=extracted_text)
+                      #  session.add(new_entry)
+                      #  session.commit()
                         st.success("لم يتم العثور على تطابق. تم حفظ النص المستخرج في قاعدة البيانات.")
     else:
         st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
