@@ -5,3 +5,5 @@ pillow
 streamlit-arabic-support-wrapper
 easyocr
 numpy 
+sklearn
+sqlalchemy
