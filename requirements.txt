@@ -4,6 +4,6 @@ openai
 pillow
 streamlit-arabic-support-wrapper
 easyocr
-numpy 
-sklearn
+numpy
+scikit-learn
 sqlalchemy
