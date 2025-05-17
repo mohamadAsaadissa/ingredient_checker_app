@@ -14,6 +14,13 @@ import uuid
 import io
 from models import OCRImage, create_new_dbsqlite###
 from arabic_support import support_arabic_text
+#pip install nest_asyncio
+#للسماح بتشغيل الحلقات غير المتزامنة
+#import nest_asyncio
+#nest_asyncio.apply()
+
+#هذا التعديل يساعد على تجاوز الخطأ المتعلق بـ torch.classes.
+
 import torch
 torch.classes.__path__ = []
 
