@@ -51,7 +51,7 @@ def upload_image_ocr_from_folder():
     if uploaded_file is not None:
         try:
             image = Image.open(uploaded_file)
-            st.image(image, caption="📷 الصورة التي تم رفعها", use_column_width=True)
+            st.image(image, caption="📷 الصورة التي تم رفعها", use_container_width=True)
             return image
         except Exception as e:
             st.error(f"حدث خطأ أثناء فتح الصورة: {e}")
