@@ -131,7 +131,7 @@ st.button("📸 التقاط صورة", on_click=toggle_message_camera, use_cont
  #st.session_state.show_message_camera = False
  #st.session_state.show_message_upload = False
 #else:
-saved_image =""
+
 # 🟢 التقاط صورة بالكاميرا
 if st.session_state.show_message_upload:
     saved_image = upload_image_ocr_from_folder()
