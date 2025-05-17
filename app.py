@@ -48,10 +48,11 @@ def get_ocr_from_camera():
 #رفع صورة لملصق المنتج
 def upload_image_ocr_from_folder():
  
-            uploaded_file = st.file_uploader("📸: ارفع صورة ", type=["png", "jpg", "jpeg"])
-            st.image(uploaded_file, caption="📷 الصورة التي تم رفعها", use_container_width=True)
-
-            return uploaded_file
+       uploaded_file = st.file_uploader("📸: ارفع صورة ", type=["png", "jpg", "jpeg"])
+    
+       image = Image.open(uploaded_file).convert("RGB")
+       st.image(image, caption="الصورة المحمّلة", use_container_width=True)
+       return image
 
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
@@ -198,9 +199,3 @@ if st.button("🔍 تحليل النص", use_container_width=True):
                         st.success("لم يتم العثور على تطابق. تم حفظ النص المستخرج في قاعدة البيانات.")
     else:
         st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
-
-
-          
-          
-          
-   
