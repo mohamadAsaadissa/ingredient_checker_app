@@ -108,7 +108,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY") or "ضع_مفتاحك_هنا"
 
 
 # إنشاء الجداول في قاعدة البيانات (فقط إذا لم تكن موجودة)
-session=create_new_dbsqlite('sqlite:///mydatabase.db')
+#session = create_new_dbsqlite('sqlite:///mydatabase.db')
 
 st.set_page_config(page_title="تحليل المكونات الغذائية", page_icon="🐞", layout="centered")
 
