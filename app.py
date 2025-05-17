@@ -50,7 +50,7 @@ def upload_image_ocr_from_folder():
  
        uploaded_file = st.file_uploader("📸: ارفع صورة ", type=["png", "jpg", "jpeg"])
     
-       image = Image.open(uploaded_file).convert("RGB")
+       image = Image.open(uploaded_file)
        st.image(image, caption="الصورة المحمّلة", use_container_width=True)
        return image
 
