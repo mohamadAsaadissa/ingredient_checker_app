@@ -14,6 +14,8 @@ import uuid
 import io
 from models import OCRImage, create_new_dbsqlite###
 from arabic_support import support_arabic_text
+import torch
+torch.classes.__path__ = []
 
 
 # وظيفة لحساب تشابه النصوص
