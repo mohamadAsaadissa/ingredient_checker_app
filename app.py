@@ -186,8 +186,8 @@ if st.button("🔍 تحليل النص", use_container_width=True):
                     break
 
           
-                        st.success("✅ نتيجة التحليل:")
-                        st.markdown(result)
+                     #   st.success("✅ نتيجة التحليل:")
+                    #    st.markdown(result)
                     except Exception as e:
                         st.error(f"❌ خطأ أثناء الاتصال بـ GPT-4: {e}")
                     finally:
@@ -195,6 +195,6 @@ if st.button("🔍 تحليل النص", use_container_width=True):
                       #  new_entry = OCRImage(extracted_text=extracted_text)
                       #  session.add(new_entry)
                       #  session.commit()
-                        st.success("لم يتم العثور على تطابق. تم حفظ النص المستخرج في قاعدة البيانات.")
+                 #       st.success("لم يتم العثور على تطابق. تم حفظ النص المستخرج في قاعدة البيانات.")
     else:
         st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
