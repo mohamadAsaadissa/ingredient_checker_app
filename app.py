@@ -184,9 +184,9 @@ if st.session_state.show_message_upload:
 elif st.session_state.show_message_camera:
     result = get_ocr_from_camera()
     if result:
-    st.write("✅ تم تحليل الصورة بنجاح!")
-    st.write("النصوص المكتشفة:", [text for (_, text, _) in result['text_results']])
-    st.session_state.show_message_upload = False
+       st.write("✅ تم تحليل الصورة بنجاح!")
+       st.write("النصوص المكتشفة:", [text for (_, text, _) in result['text_results']])
+       st.session_state.show_message_upload = False
 
 st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل المكونات لمعرفة ما إذا كانت تحتوي على مشتقات من الحشرات.")
 
