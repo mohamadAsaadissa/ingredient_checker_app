@@ -74,7 +74,7 @@ for text in extracted_texts:
     st.text_area("📄 النص المجمع:", value=combined_text, height=200)
 
         # إرجاع النتائج
-        return combined_text
+return combined_text
         
 
     # إذا لم يتم التقاط صورة
