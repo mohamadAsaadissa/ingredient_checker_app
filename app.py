@@ -74,18 +74,18 @@ def upload_image_ocr_from_folder():
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
    # إعداد EasyOCR بدعم عدة لغات
-    reader = easyocr.Reader(['sv', 'da'])
+    reader = easyocr.Reader(['sv', 'de'])
 
     # تحويل الصورة إلى مصفوفة NumPy
-    img_np = np.array(saved_image)
+    #img_np = np.array(saved_image)
     img_np = np.array(saved_image.resize((800, 600)))
     # قراءة النصوص من الصورة
-    results = reader.readtext(img_np)
-
+    
+   results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', detail=0)
     # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
     for (bbox, text, confidence) in results:
-        st.write(f"- {text} (الدقة: {confidence:.2f})")
+       # st.write(f"- {text} (الدقة: {confidence:.2f})")
 
     # استخراج النصوص فقط وتجميعها
     extracted_texts = [text for (_, text, _) in results]
