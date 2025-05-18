@@ -105,10 +105,13 @@ def extract_text_from_image(saved_image):
     reader = easyocr.Reader(['sv', 'da'])
     
     # تحويل الصورة
-    img_np = np.array(saved_image)
+    img_np = np.array(img.resize((800, 600)))  # تصغير لتحسين السرعة
     
     # قراءة النص مع تفعيل خيار التفاصيل
-    results = reader.readtext(img_np, detail=1)  # detail=1 لإرجاع كل المعلومات
+    results = reader.readtext(img_np,
+                batch_size=4,
+                allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                paragraph=True)  # detail=1 لإرجاع كل المعلومات
     
     extracted_texts = []
     st.subheader("📝 النصوص المكتشفة:")
