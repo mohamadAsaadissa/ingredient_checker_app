@@ -34,43 +34,51 @@ def calculate_similarity(text1, text2):
     return similarity[0][0]
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
-    # تهيئة EasyOCR مرة واحدة خارج الدالة لتحسين الأداء
-    reader = easyocr.Reader(['sv', 'da'])  # اللغات: السويدية والدنماركية
-    
-    img_file = st.camera_input("التقط صورة")
-    
+    # تهيئة EasyOCR
+    reader = easyocr.Reader(['sv', 'da'])  # دعم السويدية والدنماركية
+
+    img_file = st.camera_input("📸 التقط صورة")
+
     if img_file is not None:
-        # قراءة الصورة وتحويلها إلى مصفوفة NumPy
+        # قراءة الصورة وتحويلها إلى NumPy array
         img = Image.open(img_file)
-        img_np = np.array(img.resize((800, 600)))  # تغيير حجم الصورة لتسريع المعالجة
-        
+        img_np = np.array(img.resize((800, 600)))  # تصغير لتحسين السرعة
+
         with st.spinner("🔍 جارٍ تحليل الصورة..."):
-            # قراءة النص من الصورة مع إعدادات مُحسنة
+            # تشغيل OCR
             results = reader.readtext(
                 img_np,
-                batch_size=4,  # معالجة الدُفعات لتسريع العملية
-                allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'  # تصفية الأحرف المسموحة
-             ,paragraph=True)  # تجميع النصوص في فقرات
-            
-            # رسم المستطيلات حول النصوص المكتشفة
-            draw = ImageDraw.Draw(img)
-            # عرض النتائج
-        st.subheader("📝 النصوص المكتشفة:")
-    for (bbox, text, confidence) in results:
-       # st.write(f"- {text} (الدقة: {confidence:.2f})")
+                batch_size=4,
+                allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                paragraph=True
+            )
 
-    # استخراج النصوص فقط وتجميعها
-         extracted_texts = [text for (_, text, _) in results]
-         results = "\n".join(extracted_texts)
-            
-            # عرض الصورة مع المستطيلات
-         st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص",  use_container_width=True)
-            
-            # إرجاع النتائج للاستخدام لاحقًا (اختياري)
-    return {
-                'image': img,
-                'text_results': results
-            }
+        # رسم المستطيلات حول النصوص
+        draw = ImageDraw.Draw(img)
+        for (bbox, text, confidence) in results:
+            top_left = tuple(bbox[0])
+            bottom_right = tuple(bbox[2])
+            draw.rectangle([top_left, bottom_right], outline="red", width=2)
+
+        # استخراج النصوص فقط
+        extracted_texts = [text for (_, text, _) in results]
+        combined_text = "\n".join(extracted_texts)
+
+        # عرض النتائج
+        st.subheader("📝 النصوص المكتشفة:")
+        for text in extracted_texts:
+            st.write(f"- {text}")
+
+        st.image(img, caption="📷 الصورة مع التحديدات", use_container_width=True)
+        st.text_area("📄 النص المجمع:", value=combined_text, height=200)
+
+        # إرجاع النتائج
+        return {
+            'image': img,
+            'text_results': combined_text
+        }
+
+    # إذا لم يتم التقاط صورة
     return None
 
     # st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
