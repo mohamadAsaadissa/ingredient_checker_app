@@ -98,7 +98,46 @@ def upload_image_ocr_from_folder():
     else:
         st.warning("لم يتم تحميل أي ملف.")
         return None
-        
+        #####
+ def extract_text_from_image1(saved_image):     
+
+    # تهيئة القارئ (يُفضل أن تكون خارج الدالة لتحسين الأداء)
+    reader = easyocr.Reader(['ar', 'en'])
+    
+    # تحويل الصورة
+    img_np = np.array(saved_image)
+    
+    # قراءة النص مع تفعيل خيار التفاصيل
+    results = reader.readtext(img_np, detail=1)  # detail=1 لإرجاع كل المعلومات
+    
+    extracted_texts = []
+    st.subheader("📝 النصوص المكتشفة:")
+    
+    for item in results:
+        try:
+            # طريقة آمنة للتعامل مع البنيات المختلفة
+            if len(item) == 3:  # إذا كانت تحتوي على bbox, text, confidence
+                bbox, text, confidence = item
+            elif len(item) == 2:  # بعض الإصدارات تُرجع (text, bbox)
+                text, bbox = item
+                confidence = None
+            else:
+                continue
+                
+            st.write(f"- {text} (الدقة: {confidence:.2f})" if confidence else f"- {text}")
+            extracted_texts.append(text)
+            
+        except Exception as e:
+            st.warning(f"خطأ في معالجة عنصر: {e}")
+            continue
+    
+    combined_text = "\n".join(extracted_texts)
+    st.text_area("📄 النص المستخرج:", value=combined_text, height=200)
+    
+    return {
+        'text': combined_text,
+        'raw_results': results  # للإطلاع على البنية الكاملة
+    }          
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
    # إعداد EasyOCR بدعم عدة لغات
@@ -214,7 +253,7 @@ extracted_text=""
 if st.button("🔍 تحليل النص", use_container_width=True):
     if saved_image:
         with st.spinner("جاري استخراج النص..."):
-             extracted_text = extract_text_from_image(saved_image)
+             extracted_text = extract_text_from_image1(saved_image)
 
         if not extracted_text.strip():
                st.warning("لم يتم العثور على نص قابل للاستخراج في الصورة.")
