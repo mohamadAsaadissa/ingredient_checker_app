@@ -78,7 +78,7 @@ def extract_text_from_image(saved_image):
 
     # تحويل الصورة إلى مصفوفة NumPy
     img_np = np.array(saved_image)
-
+    img_np = np.array(saved_image.resize((800, 600)))
     # قراءة النصوص من الصورة
     results = reader.readtext(img_np)
 
