@@ -62,17 +62,16 @@ for item in results:
         draw.polygon([tuple(p) for p in bbox], outline='red')
 
         # استخراج النصوص فقط
-            extracted_texts = [text for (_, text, _) in results]
-            combined_text = "\n".join(extracted_texts)
+    extracted_texts = [text for (_, text, _) in results]
+    combined_text = "\n".join(extracted_texts)
 
         # عرض النتائج
-        st.subheader("📝 النصوص المكتشفة:")
-        for text in extracted_texts:
-            st.write(f"- {text}")
+    st.subheader("📝 النصوص المكتشفة:")
+for text in extracted_texts:
+    st.write(f"- {text}")
 
-            st.image(img, caption="📷 الصورة مع التحديدات", use_container_width=True)
-            st.text_area("📄 النص المجمع:", value=combined_text, height=200)
-
+    st.image(img, caption="📷 الصورة مع التحديدات", use_container_width=True)
+    st.text_area("📄 النص المجمع:", value=combined_text, height=200)
 
         # إرجاع النتائج
         return combined_text
