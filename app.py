@@ -32,9 +32,7 @@ def calculate_similarity(text1, text2):
     vectorizer = TfidfVectorizer().fit_transform([text1, text2])
     similarity = cosine_similarity(vectorizer[0:1], vectorizer[1:2])
     return similarity[0][0]
-# 🟢 التقاط صورة بالكاميرا
-
-  def get_ocr_from_camera():
+def get_ocr_from_camera():
    # تهيئة EasyOCR
     reader = easyocr.Reader(['sv', 'da'])  # دعم السويدية والدنماركية
 
@@ -82,8 +80,7 @@ def calculate_similarity(text1, text2):
         
 
     # إذا لم يتم التقاط صورة
-  return None
-
+    return None
     
 #رفع صورة لملصق المنتج
 def upload_image_ocr_from_folder():
