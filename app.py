@@ -123,9 +123,9 @@ def extract_text_from_image(saved_image):
         st.write(f"- {text} (الدقة: {confidence:.2f})")
     extracted_texts.append(text)
     # استخراج النصوص فقط وتجميعها
-    combined_text = "\n".join([text for (_, text, _) in extracted_texts])
+    combined_text = "\n".join(extracted_texts)
     # عرض النص المجمع
-    st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
+    #st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
 
     return combined_text
   
@@ -214,8 +214,8 @@ st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل ا
 if st.button("🔍 تحليل النص", use_container_width=True):
     if saved_image:
         with st.spinner("جاري استخراج النص..."):
-            extracted_text = extract_text_from_image(saved_image)
+             extracted_text = extract_text_from_image(saved_image)
 
         if not extracted_text.strip():
-            st.warning("لم يتم العثور على نص قابل للاستخراج في الصورة.")
+               st.warning("لم يتم العثور على نص قابل للاستخراج في الصورة.")
     
