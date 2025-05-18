@@ -73,25 +73,29 @@ def upload_image_ocr_from_folder():
         
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
-    reader = easyocr.Reader(['ar', 'en'])
-img_np = np.array(saved_image.resize((800, 600)))    
-    # قراءة النص مع الحصول على كل التفاصيل (النص، الإحداثيات، الثقة)
-    results = reader.readtext(img_np, detail=0)  # detail=0 يُرجع قائمة نصوص مباشرة
-combined_text = "\n".join(results)  # لن يحدث خطأ هنا
-    
-    # تصحيح الخطأ: استخراج النصوص فقط من الـ tuples
-    extracted_texts = [text for (bbox, text, confidence) in results]  # استخراج العنصر الثاني (النص) من كل tuple
-    
-    # عرض النتائج في Streamlit
+   # إعداد EasyOCR بدعم عدة لغات
+    reader = easyocr.Reader(['ar', 'en', 'sv', 'de', 'da'])
+
+    # تحويل الصورة إلى مصفوفة NumPy
+    img_np = np.array(saved_image)
+
+    # قراءة النصوص من الصورة
+    results = reader.readtext(img_np)
+
+    # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
-    for bbox, text, confidence in results:
+    for (bbox, text, confidence) in results:
         st.write(f"- {text} (الدقة: {confidence:.2f})")
-    
-    # تجميع النصوص في سلسلة واحدة
+
+    # استخراج النصوص فقط وتجميعها
+    extracted_texts = [text for (_, text, _) in results]
     combined_text = "\n".join(extracted_texts)
+
+    # عرض النص المجمع
     st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
-    
+
     return combined_text
+  
     
 #  تحليل المكونات باستخدام GPT-4
 #def analyze_ingredients_with_gpt(ingredients_text):
