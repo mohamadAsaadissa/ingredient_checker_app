@@ -82,7 +82,12 @@ def extract_text_from_image(saved_image):
     img_np = np.array(saved_image.resize((800, 600)))
     # قراءة النصوص من الصورة
     
-    results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    results = reader.readtext(img_np, 
+            batch_size=4,  # معالجة الدُفعات لتسريع العملية
+            paragraph=True,  # تجميع الفقرات تلقائيًا
+            decoder='beamsearch',  # خوارزمية أسرع للفك
+            detail=0 ,  # إرجاع النص فقط (بدءًا من إصدار EasyOCR 1.7)
+               allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')              
     # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
     for (bbox, text, confidence) in results:
