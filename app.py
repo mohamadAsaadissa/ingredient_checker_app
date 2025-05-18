@@ -55,16 +55,16 @@ def get_ocr_from_camera():
             # رسم المستطيلات حول النصوص المكتشفة
             draw = ImageDraw.Draw(img)
             # عرض النتائج
-    st.subheader("📝 النصوص المكتشفة:")
+        st.subheader("📝 النصوص المكتشفة:")
     for (bbox, text, confidence) in results:
        # st.write(f"- {text} (الدقة: {confidence:.2f})")
 
     # استخراج النصوص فقط وتجميعها
-     extracted_texts = [text for (_, text, _) in results]
-     results = "\n".join(extracted_texts)
+         extracted_texts = [text for (_, text, _) in results]
+         results = "\n".join(extracted_texts)
             
             # عرض الصورة مع المستطيلات
-    st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص",  use_container_width=True)
+         st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص",  use_container_width=True)
             
             # إرجاع النتائج للاستخدام لاحقًا (اختياري)
     return {
@@ -179,7 +179,7 @@ st.button("📸 التقاط صورة", on_click=toggle_message_camera, use_cont
  #st.session_state.show_message_camera = False
  #st.session_state.show_message_upload = False
 #else:
-
+saved_image =""
 # 🟢 التقاط صورة بالكاميرا
 if st.session_state.show_message_upload:
     saved_image = upload_image_ocr_from_folder()
