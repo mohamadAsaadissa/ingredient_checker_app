@@ -99,7 +99,7 @@ def upload_image_ocr_from_folder():
         st.warning("لم يتم تحميل أي ملف.")
         return None
         #####
- def extract_text_from_image(saved_image):     
+def extract_text_from_image(saved_image):     
 
     # تهيئة القارئ (يُفضل أن تكون خارج الدالة لتحسين الأداء)
     reader = easyocr.Reader(['sv', 'da'])
