@@ -134,10 +134,8 @@ def upload_image_ocr_from_folder():
     combined_text = "\n".join(extracted_texts)
     st.text_area("📄 النص المستخرج:", value=combined_text, height=200)
     
-    return {
-        'text': combined_text,
-        'raw_results': results  # للإطلاع على البنية الكاملة
-    }          
+    return  combined_text
+           
     #حويل الصورة إلى نص
 
     
