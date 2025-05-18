@@ -45,12 +45,7 @@ def get_ocr_from_camera():
 
     with st.spinner("🔍 جارٍ تحليل الصورة..."):
             # تشغيل OCR
-         results = reader.readtext(img_np,
-                batch_size=4,
-               # allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-               # paragraph=True,
-                detail=1
-            )
+          results = reader.readtext(img_np, detail=1 )
 
         # رسم المستطيلات حول النصوص
     draw = ImageDraw.Draw(saved_image)
