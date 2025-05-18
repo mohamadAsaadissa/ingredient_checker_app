@@ -37,10 +37,10 @@ def get_ocr_from_camera():
     img_file = st.camera_input("التقط صورة")
 
     if img_file is not None:
-        img = Image.open(img_file).convert("RGB")
-        img_np = np.array(img)
+        img = Image.open(img_file)
+         img_np = np.array(saved_image.resize((800, 600)))
 
-        reader = easyocr.Reader(['ar', 'en'])
+        reader = easyocr.Reader(['se', 'da'])
         with st.spinner("🔍 جارٍ تحليل الصورة..."):
             results = reader.readtext(img_np)
 
