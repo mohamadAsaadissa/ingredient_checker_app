@@ -54,16 +54,20 @@ def get_ocr_from_camera():
             
             # رسم المستطيلات حول النصوص المكتشفة
             draw = ImageDraw.Draw(img)
-            for (bbox, text, confidence) in results:
-                top_left = tuple(bbox[0])
-                bottom_right = tuple(bbox[2])
-                draw.rectangle([top_left, bottom_right], outline="red", width=3)
+            # عرض النتائج
+    st.subheader("📝 النصوص المكتشفة:")
+    for (bbox, text, confidence) in results:
+       # st.write(f"- {text} (الدقة: {confidence:.2f})")
+
+    # استخراج النصوص فقط وتجميعها
+     extracted_texts = [text for (_, text, _) in results]
+     results = "\n".join(extracted_texts)
             
             # عرض الصورة مع المستطيلات
-            st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص",  use_container_width=True)
+    st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص",  use_container_width=True)
             
             # إرجاع النتائج للاستخدام لاحقًا (اختياري)
-            return {
+    return {
                 'image': img,
                 'text_results': results
             }
