@@ -43,7 +43,7 @@ def get_ocr_from_camera():
      img_np = np.array(img.resize((800, 600)))
       
     with st.spinner("🔍 جارٍ تحليل الصورة..."):
-            results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+            results = reader.readtext(img_np)
 
             draw = ImageDraw.Draw(img)
     for (bbox, text, confidence) in results:
