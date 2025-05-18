@@ -54,12 +54,16 @@ def get_ocr_from_camera():
               #  paragraph=True
                 detail =1
             )
-
+        draw = ImageDraw.Draw(saved_image)
+        for item in results:
+           if len(item) >= 2:  # إذا كان يحتوي على bbox
+              bbox = item[0] if isinstance(item[0], list) else item[1]
+        draw.polygon([tuple(p) for p in bbox], outline='red')
         # رسم المستطيلات حول النصوص
-        draw = ImageDraw.Draw(img)
-        for (bbox, text, confidence) in results:
-            top_left = tuple(bbox[0])
-            bottom_right = tuple(bbox[2])
+       # draw = ImageDraw.Draw(img)
+       # for (bbox, text, confidence) in results:
+         #   top_left = tuple(bbox[0])
+        #    bottom_right = tuple(bbox[2])
           #  draw.rectangle([top_left, bottom_right], outline="red", width=2)
 
         # استخراج النصوص فقط
