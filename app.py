@@ -35,12 +35,12 @@ def calculate_similarity(text1, text2):
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
     img_file = st.camera_input("التقط صورة")
-    reader = easyocr.Reader(['sv', 'de'])
+    reader = easyocr.Reader(['sv', 'da'])
 
     if img_file is not None:
     # قراءة الصورة وتحويلها إلى مصفوفة NumPy
      img = Image.open(img_file).convert("RGB")
-     img_np = np.array(img)
+     img_np = np.array(img.resize((800, 600)))
       
     with st.spinner("🔍 جارٍ تحليل الصورة..."):
             results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
@@ -75,14 +75,14 @@ def upload_image_ocr_from_folder():
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
    # إعداد EasyOCR بدعم عدة لغات
-    reader = easyocr.Reader(['sv', 'de'])
+    reader = easyocr.Reader(['sv', 'da'])
 
     # تحويل الصورة إلى مصفوفة NumPy
     #img_np = np.array(saved_image)
     img_np = np.array(saved_image.resize((800, 600)))
     # قراءة النصوص من الصورة
     
-    results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',detail=0)
     # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
     for (bbox, text, confidence) in results:
