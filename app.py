@@ -120,8 +120,8 @@ def extract_text_from_image(saved_image):
     # عرض النتائج
     extracted_texts = []
     for (bbox, text, confidence) in results:
-         st.write(f"- {text} (الدقة: {confidence:.2f})")
-     #   extracted_texts.append(text)
+        # st.write(f"- {text} (الدقة: {confidence:.2f})")
+         extracted_texts.append(text)
     # استخراج النصوص فقط وتجميعها
     combined_text = "\n".join(extracted_texts)
     # عرض النص المجمع
