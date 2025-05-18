@@ -60,7 +60,7 @@ def get_ocr_from_camera():
                 draw.rectangle([top_left, bottom_right], outline="red", width=3)
             
             # عرض الصورة مع المستطيلات
-            st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_column_width=True)
+            st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص",  use_container_width=True)
             
             # إرجاع النتائج للاستخدام لاحقًا (اختياري)
             return {
