@@ -32,6 +32,8 @@ def calculate_similarity(text1, text2):
     vectorizer = TfidfVectorizer().fit_transform([text1, text2])
     similarity = cosine_similarity(vectorizer[0:1], vectorizer[1:2])
     return similarity[0][0]
+
+
 def get_ocr_from_camera():
    # تهيئة EasyOCR
     reader = easyocr.Reader(['sv', 'da'])  # دعم السويدية والدنماركية
@@ -41,7 +43,14 @@ def get_ocr_from_camera():
     if img_file is not None:
         # قراءة الصورة وتحويلها إلى NumPy array
         img = Image.open(img_file)
-        img_np = np.array(img)  # تصغير لتحسين السرعة
+        img_np = np.array(img.resize((800, 600)))  # تصغير لتحسين السرعة
+    
+    # قراءة النص مع تفعيل خيار التفاصيل
+    results = reader.readtext(img_np,
+                batch_size=4,
+                #allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+              #  paragraph=True ,
+                              detail=1)  #  لإرجاع كل المعلومات
 
     with st.spinner("🔍 جارٍ تحليل الصورة..."):
             # تشغيل OCR
