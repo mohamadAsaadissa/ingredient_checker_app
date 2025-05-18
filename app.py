@@ -72,7 +72,7 @@ def upload_image_ocr_from_folder():
         return None
         
     #حويل الصورة إلى نص
-def extract_text_from_image1(saved_image) -> str:
+def extract_text_from_image(saved_image) -> str:
   #  """
   #  تستخرج النص من الصورة بسرعة باستخدام EasyOCR وتعيده كسلسلة نصية.
     
