@@ -34,6 +34,7 @@ def calculate_similarity(text1, text2):
     return similarity[0][0]
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
+  def get_ocr_from_camera():
    # تهيئة EasyOCR
     reader = easyocr.Reader(['sv', 'da'])  # دعم السويدية والدنماركية
 
@@ -44,9 +45,9 @@ def get_ocr_from_camera():
         img = Image.open(img_file).convert("RGB")
         img_np = np.array(img.resize((800, 600)))  # تصغير لتحسين السرعة
 
-        with st.spinner("🔍 جارٍ تحليل الصورة..."):
+    with st.spinner("🔍 جارٍ تحليل الصورة..."):
             # تشغيل OCR
-            results = reader.readtext(
+          results = reader.readtext(
                 img_np,
                 batch_size=4,
                # allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -55,11 +56,11 @@ def get_ocr_from_camera():
             )
 
         # رسم المستطيلات حول النصوص
-        draw = ImageDraw.Draw(saved_image)
-for item in results:
-    if len(item) >= 2:  # إذا كان يحتوي على bbox
-        bbox = item[0] if isinstance(item[0], list) else item[1]
-        draw.polygon([tuple(p) for p in bbox], outline='red')
+    draw = ImageDraw.Draw(saved_image)
+    for item in results:
+        if len(item) >= 2:  # إذا كان يحتوي على bbox
+           bbox = item[0] if isinstance(item[0], list) else item[1]
+           draw.polygon([tuple(p) for p in bbox], outline='red')
 
         # استخراج النصوص فقط
     extracted_texts = [text for (_, text, _) in results]
@@ -67,11 +68,19 @@ for item in results:
 
         # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
-for text in extracted_texts:
-    st.write(f"- {text}")
+    for text in extracted_texts:
+        st.write(f"- {text}")
 
     st.image(img, caption="📷 الصورة مع التحديدات", use_container_width=True)
     st.text_area("📄 النص المجمع:", value=combined_text, height=200)
+
+        # إرجاع النتائج
+    return  combined_text
+        
+
+    # إذا لم يتم التقاط صورة
+    return None
+
 
         # إرجاع النتائج
 return combined_text
