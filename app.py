@@ -105,7 +105,7 @@ def extract_text_from_image(saved_image):
     reader = easyocr.Reader(['sv', 'da'])
     
     # تحويل الصورة
-    img_np = np.array(img.resize((800, 600)))  # تصغير لتحسين السرعة
+    img_np = np.array(saved_image.resize((800, 600)))  # تصغير لتحسين السرعة
     
     # قراءة النص مع تفعيل خيار التفاصيل
     results = reader.readtext(img_np,
