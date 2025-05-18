@@ -74,7 +74,7 @@ def upload_image_ocr_from_folder():
     #حويل الصورة إلى نص
 def extract_text_from_image(saved_image):
    # إعداد EasyOCR بدعم عدة لغات
-    reader = easyocr.Reader(['ar', 'en', 'sv', 'de', 'da'])
+    reader = easyocr.Reader(['sv', 'da'])
 
     # تحويل الصورة إلى مصفوفة NumPy
     img_np = np.array(saved_image)
