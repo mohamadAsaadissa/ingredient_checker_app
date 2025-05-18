@@ -77,8 +77,7 @@ for text in extracted_texts:
 return combined_text
         
 
-    # إذا لم يتم التقاط صورة
-    return None
+   
     # st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
     
 #رفع صورة لملصق المنتج
