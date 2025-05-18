@@ -72,20 +72,43 @@ def upload_image_ocr_from_folder():
         return None
         
     #حويل الصورة إلى نص
-def extract_text_from_image(saved_image):
-    reader = easyocr.Reader(['ar', 'en'])
-    img_np = np.array(saved_image)
-    results = reader.readtext(img_np)
-
-    extracted_text = "\n".join([text for (_, text, _) in results])
-
-    st.subheader("📝 النصوص المكتشفة:")
-    for (_, text, confidence) in results:
-        st.write(f"- {text} (الدقة: {confidence:.2f})")
-
-    st.text_area("📄 النص المستخرج من الصورة:", value=extracted_text, height=200)
-
-    return extracted_text
+def extract_text_from_image1(saved_image) -> str:
+  #  """
+  #  تستخرج النص من الصورة بسرعة باستخدام EasyOCR وتعيده كسلسلة نصية.
+    
+   # Args:
+    #    saved_image: صورة مدخلة (PIL.Image أو numpy array).
+    
+  #  Returns:
+   #     str: النص المستخرج مجمع في سلسلة واحدة.
+   # """
+    try:
+        # تحويل الصورة إلى numpy array مرة واحدة
+        img_np = np.array(saved_image)
+        
+        # استخدام القراءة السريعة مع إعدادات مُحسنة
+        results = reader.readtext(
+            img_np,
+            batch_size=4,  # معالجة الدُفعات لتسريع العملية
+            paragraph=True,  # تجميع الفقرات تلقائيًا
+            decoder='beamsearch',  # خوارزمية أسرع للفك
+            detail=0  # إرجاع النص فقط (بدءًا من إصدار EasyOCR 1.7)
+        )
+        
+        # تجميع النصوص (إذا كان detail=0، تكون النتائج مباشرة كقائمة نصوص)
+        results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+        combined_text = "\n".join(results)
+        
+        # عرض النتائج في Streamlit (اختياري)
+        if st:
+            st.subheader("📝 النصوص المكتشفة:")
+            st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
+        
+        return combined_text
+    
+    except Exception as e:
+        st.error(f"حدث خطأ أثناء قراءة الصورة: {e}")
+        return ""
     
 #  تحليل المكونات باستخدام GPT-4
 #def analyze_ingredients_with_gpt(ingredients_text):
@@ -169,49 +192,4 @@ if st.button("🔍 تحليل النص", use_container_width=True):
 
         if not extracted_text.strip():
             st.warning("لم يتم العثور على نص قابل للاستخراج في الصورة.")
-        else:
-            # استرجاع جميع الصور من قاعدة البيانات
-            images = session.query(OCRImage).all()
-            similarities = []
-
-            for img in images:
-                similarity_score = calculate_similarity(extracted_text, img.extracted_text)
-                similarities.append((img, similarity_score))
-
-            # التحقق من وجود تطابق
-            matched = False
-            for img, score in similarities:
-                if score >= 0.9:
-                    matched = True
-                    st.success(f"تم العثور على تطابق مع الصورة ذات المعرف {img.id} بدرجة تشابه {score:.2f}")
-                    st.write("النص المستخرج مسبقًا:")
-                    st.write(img.extracted_text)
-                    break
-
-            if not matched:
-                with st.spinner("جاري التحليل باستخدام GPT-4..."):
-                    prompt = f"""
-هل تحتوي قائمة المكونات التالية على أي مكون مشتق من الحشرات؟
-إذا كان نعم، اذكر المكون ووضح مصدره. إذا لا، قل أنها خالية.
-قائمة المكونات:
-{extracted_text}
-"""
-                    try:
-                        response = openai.ChatCompletion.create(
-                            model="gpt-3.5-turbo",
-                            messages=[{"role": "user", "content": prompt}],
-                            temperature=0.2
-                        )
-                        result = response['choices'][0]['message']['content']
-                        st.success("✅ نتيجة التحليل:")
-                        st.markdown(result)
-                    except Exception as e:
-                        st.error(f"❌ خطأ أثناء الاتصال بـ GPT-4: {e}")
-                    finally:
-                        # حفظ النص المستخرج في قاعدة البيانات
-                        new_entry = OCRImage(extracted_text=extracted_text)
-                        session.add(new_entry)
-                        session.commit()
-                        st.success("لم يتم العثور على تطابق. تم حفظ النص المستخرج في قاعدة البيانات.")
-    else:
-        st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
+    
