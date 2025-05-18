@@ -99,7 +99,7 @@ def upload_image_ocr_from_folder():
         st.warning("لم يتم تحميل أي ملف.")
         return None
         #####
- def extract_text_from_image1(saved_image):     
+ def extract_text_from_image_vvv(saved_image):     
 
     # تهيئة القارئ (يُفضل أن تكون خارج الدالة لتحسين الأداء)
     reader = easyocr.Reader(['ar', 'en'])
@@ -253,7 +253,7 @@ extracted_text=""
 if st.button("🔍 تحليل النص", use_container_width=True):
     if saved_image:
         with st.spinner("جاري استخراج النص..."):
-             extracted_text = extract_text_from_image1(saved_image)
+             extracted_text = extract_text_from_image1_vvv(saved_image)
 
         if not extracted_text.strip():
                st.warning("لم يتم العثور على نص قابل للاستخراج في الصورة.")
