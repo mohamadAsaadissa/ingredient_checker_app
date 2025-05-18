@@ -72,45 +72,26 @@ def upload_image_ocr_from_folder():
         return None
         
     #حويل الصورة إلى نص
-def extract_text_from_image(saved_image) -> str:
-  #  """
-  #  تستخرج النص من الصورة بسرعة باستخدام EasyOCR وتعيده كسلسلة نصية.
+def extract_text_from_image(saved_image):
+    reader = easyocr.Reader(['ar', 'en'])
+img_np = np.array(saved_image.resize((800, 600)))    
+    # قراءة النص مع الحصول على كل التفاصيل (النص، الإحداثيات، الثقة)
+    results = reader.readtext(img_np, detail=0)  # detail=0 يُرجع قائمة نصوص مباشرة
+combined_text = "\n".join(results)  # لن يحدث خطأ هنا
     
-   # Args:
-    #    saved_image: صورة مدخلة (PIL.Image أو numpy array).
+    # تصحيح الخطأ: استخراج النصوص فقط من الـ tuples
+    extracted_texts = [text for (bbox, text, confidence) in results]  # استخراج العنصر الثاني (النص) من كل tuple
     
-  #  Returns:
-   #     str: النص المستخرج مجمع في سلسلة واحدة.
-   # """
-    try:
-        # تهيئة القارئ مرة واحدة خارج الدالة لتحسين الأداء (يتم تحميل النماذج مرة واحدة فقط)
-        reader = easyocr.Reader(['sv'], gpu=False)  # إيقاف GPU إذا لم يكن متاحًا لتجنب الأخطاء
-        # تحويل الصورة إلى numpy array مرة واحدة
-       # img_np = np.array(saved_image)
-        img_np = np.array(saved_image.resize((800, 600)))
-        # استخدام القراءة السريعة مع إعدادات مُحسنة
-        results = reader.readtext(
-            img_np,
-            batch_size=4,  # معالجة الدُفعات لتسريع العملية
-            paragraph=True,  # تجميع الفقرات تلقائيًا
-            decoder='beamsearch',  # خوارزمية أسرع للفك
-            detail=0  # إرجاع النص فقط (بدءًا من إصدار EasyOCR 1.7)
-        )
-        
-        # تجميع النصوص (إذا كان detail=0، تكون النتائج مباشرة كقائمة نصوص)
-        results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
-        combined_text = "\n".join(results)
-        
-        # عرض النتائج في Streamlit (اختياري)
-        if st:
-            st.subheader("📝 النصوص المكتشفة:")
-            st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
-        
-        return combined_text
+    # عرض النتائج في Streamlit
+    st.subheader("📝 النصوص المكتشفة:")
+    for bbox, text, confidence in results:
+        st.write(f"- {text} (الدقة: {confidence:.2f})")
     
-    except Exception as e:
-        st.error(f"حدث خطأ أثناء قراءة الصورة: {e}")
-        return ""
+    # تجميع النصوص في سلسلة واحدة
+    combined_text = "\n".join(extracted_texts)
+    st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
+    
+    return combined_text
     
 #  تحليل المكونات باستخدام GPT-4
 #def analyze_ingredients_with_gpt(ingredients_text):
