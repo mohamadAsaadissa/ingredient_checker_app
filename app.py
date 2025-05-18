@@ -113,14 +113,19 @@ def extract_text_from_image(saved_image):
             batch_size=4 # معالجة الدُفعات لتسريع العملية
            , allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', paragraph=True)  # تجميع النصوص في فقرات
                            
+    if not results:
+        st.warning("⚠️ لم يتم العثور على نص في الصورة.")
+        return ""
+    
     # عرض النتائج
-    st.subheader("📝 النصوص المكتشفة:")
+    extracted_texts = []
     for (bbox, text, confidence) in results:
-     st.write(f"- {text} (الدقة: {confidence:.2f})")
+        st.write(f"- {text} (الدقة: {confidence:.2f})")
+    extracted_texts.append(text)
     # استخراج النصوص فقط وتجميعها
-     combined_text = "\n".join([text for (_, text, _) in results])
+    combined_text = "\n".join([text for (_, text, _) in extracted_texts])
     # عرض النص المجمع
-     st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
+    st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
 
     return combined_text
   
