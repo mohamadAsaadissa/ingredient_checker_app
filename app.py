@@ -41,7 +41,7 @@ def get_ocr_from_camera():
 
     if img_file is not None:
         # قراءة الصورة وتحويلها إلى NumPy array
-        img = Image.open(img_file)
+        img = Image.open(img_file).convert("RGB")
         img_np = np.array(img.resize((800, 600)))  # تصغير لتحسين السرعة
 
         with st.spinner("🔍 جارٍ تحليل الصورة..."):
@@ -49,17 +49,17 @@ def get_ocr_from_camera():
             results = reader.readtext(
                 img_np,
                 batch_size=4,
-                allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-                paragraph=True
+               # allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+               # paragraph=True,
+                detail=1
             )
 
         # رسم المستطيلات حول النصوص
-            draw = ImageDraw.Draw(img)
-        for (bbox, text, confidence) in results:
-
-            top_left = tuple(bbox[0])
-            bottom_right = tuple(bbox[2])
-            draw.rectangle([top_left, bottom_right], outline="red", width=5)
+           draw = ImageDraw.Draw(saved_image)
+for item in results:
+    if len(item) >= 2:  # إذا كان يحتوي على bbox
+        bbox = item[0] if isinstance(item[0], list) else item[1]
+        draw.polygon([tuple(p) for p in bbox], outline='red')
 
         # استخراج النصوص فقط
             extracted_texts = [text for (_, text, _) in results]
@@ -74,14 +74,11 @@ def get_ocr_from_camera():
             st.text_area("📄 النص المجمع:", value=combined_text, height=200)
 
         # إرجاع النتائج
-        return {
-            'image': img,
-            'text_results': combined_text
-        }
+        return combined_text
+        
 
     # إذا لم يتم التقاط صورة
     return None
-
     # st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
     
 #رفع صورة لملصق المنتج
