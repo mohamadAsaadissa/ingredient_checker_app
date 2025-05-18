@@ -40,7 +40,7 @@ def get_ocr_from_camera():
 
     if img_file is not None:
         # قراءة الصورة وتحويلها إلى NumPy array
-        img = Image.open(img_file).convert("RGB")
+        img = Image.open(img_file)
         img_np = np.array(img.resize((800, 600)))  # تصغير لتحسين السرعة
 
     with st.spinner("🔍 جارٍ تحليل الصورة..."):
