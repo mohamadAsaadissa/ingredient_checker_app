@@ -54,23 +54,24 @@ def get_ocr_from_camera():
             )
 
         # رسم المستطيلات حول النصوص
-        draw = ImageDraw.Draw(img)
+            draw = ImageDraw.Draw(img)
         for (bbox, text, confidence) in results:
+
             top_left = tuple(bbox[0])
             bottom_right = tuple(bbox[2])
-            draw.rectangle([top_left, bottom_right], outline="red", width=2)
+            draw.rectangle([top_left, bottom_right], outline="red", width=5)
 
         # استخراج النصوص فقط
-        extracted_texts = [text for (_, text, _) in results]
-        combined_text = "\n".join(extracted_texts)
+            extracted_texts = [text for (_, text, _) in results]
+            combined_text = "\n".join(extracted_texts)
 
         # عرض النتائج
-        st.subheader("📝 النصوص المكتشفة:")
+            st.subheader("📝 النصوص المكتشفة:")
         for text in extracted_texts:
             st.write(f"- {text}")
 
-        st.image(img, caption="📷 الصورة مع التحديدات", use_container_width=True)
-        st.text_area("📄 النص المجمع:", value=combined_text, height=200)
+            st.image(img, caption="📷 الصورة مع التحديدات", use_container_width=True)
+            st.text_area("📄 النص المجمع:", value=combined_text, height=200)
 
         # إرجاع النتائج
         return {
@@ -197,7 +198,7 @@ if st.session_state.show_message_upload:
 elif st.session_state.show_message_camera:
      result = get_ocr_from_camera()
     
-     if  result.get('text_results', "لا يوجد نص"):
+     if  result:
        st.write("✅ تم تحليل الصورة بنجاح!")
      
        st.session_state.show_message_upload = False
