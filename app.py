@@ -35,14 +35,13 @@ def calculate_similarity(text1, text2):
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
     img_file = st.camera_input("التقط صورة")
-
+     reader = easyocr.Reader(['se', 'da'])
     if img_file is not None:
         img = Image.open(img_file)
          img_np = np.array(saved_image.resize((800, 600)))
-
-        reader = easyocr.Reader(['se', 'da'])
+      
         with st.spinner("🔍 جارٍ تحليل الصورة..."):
-            results = reader.readtext(img_np)
+            results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
         draw = ImageDraw.Draw(img)
         for (bbox, text, confidence) in results:
@@ -81,7 +80,7 @@ def extract_text_from_image(saved_image):
     img_np = np.array(saved_image.resize((800, 600)))
     # قراءة النصوص من الصورة
     
-   results = reader.readtext(img_np)
+  results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
     # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
     for (bbox, text, confidence) in results:
