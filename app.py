@@ -35,7 +35,7 @@ def calculate_similarity(text1, text2):
 
 
 def get_ocr_from_camera():
-   # تهيئة EasyOCR
+   # تهيئة EasyOC
     reader = easyocr.Reader(['sv', 'da'])  # دعم السويدية والدنماركية
 
     img_file = st.camera_input("📸 التقط صورة")
@@ -44,44 +44,40 @@ def get_ocr_from_camera():
         # قراءة الصورة وتحويلها إلى NumPy array
         img = Image.open(img_file)
         img_np = np.array(img.resize((800, 600)))  # تصغير لتحسين السرعة
-    
-    # قراءة النص مع تفعيل خيار التفاصيل
-    results = reader.readtext(img_np,
-                batch_size=4,
-                #allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-              #  paragraph=True ,
-                              detail=1)  #  لإرجاع كل المعلومات
 
-    with st.spinner("🔍 جارٍ تحليل الصورة..."):
+        with st.spinner("🔍 جارٍ تحليل الصورة..."):
             # تشغيل OCR
-        if img_np:
-           results = reader.readtext(img_np)
+            results = reader.readtext(
+                img_np,
+                batch_size=4,
+                allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                paragraph=True
+            )
 
         # رسم المستطيلات حول النصوص
-    draw = ImageDraw.Draw(saved_image)
-    for item in results:
-        if len(item) >= 2:  # إذا كان يحتوي على bbox
-           bbox = item[0] if isinstance(item[0], list) else item[1]
-           draw.polygon([tuple(p) for p in bbox], outline='red')
+        draw = ImageDraw.Draw(img)
+        for (bbox, text, confidence) in results:
+            top_left = tuple(bbox[0])
+            bottom_right = tuple(bbox[2])
+            draw.rectangle([top_left, bottom_right], outline="red", width=2)
 
         # استخراج النصوص فقط
-    extracted_texts = [text for (_, text, _) in results]
-    combined_text = "\n".join(extracted_texts)
+        extracted_texts = [text for (_, text, _) in results]
+        combined_text = "\n".join(extracted_texts)
 
         # عرض النتائج
-    st.subheader("📝 النصوص المكتشفة:")
-    for text in extracted_texts:
-        st.write(f"- {text}")
+        st.subheader("📝 النصوص المكتشفة:")
+        for text in extracted_texts:
+            st.write(f"- {text}")
 
-    st.image(img, caption="📷 الصورة مع التحديدات", use_container_width=True)
-    st.text_area("📄 النص المجمع:", value=combined_text, height=200)
+        st.image(img, caption="📷 الصورة مع التحديدات", use_container_width=True)
+        st.text_area("📄 النص المجمع:", value=combined_text, height=200)
 
         # إرجاع النتائج
-    return {
+        return {
             'image': img,
             'text_results': combined_text
         }
-        
 
     # إذا لم يتم التقاط صورة
     return None
