@@ -111,7 +111,7 @@ def extract_text_from_image(saved_image):
     results = reader.readtext(img_np,
                 batch_size=4,
                 allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-                paragraph=True)  # detail=1 لإرجاع كل المعلومات
+                paragraph=True,detail=1)  #  لإرجاع كل المعلومات
     
     extracted_texts = []
     st.subheader("📝 النصوص المكتشفة:")
