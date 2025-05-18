@@ -39,22 +39,22 @@ def get_ocr_from_camera():
 
     if img_file is not None:
     # قراءة الصورة وتحويلها إلى مصفوفة NumPy
-     img = Image.open(img_file)
-     img_np = np.array(img.resize((800, 600)))
+   #  img = Image.open(img_file)
+     img_np = np.array(img_file.resize((800, 600)))
       
     with st.spinner("🔍 جارٍ تحليل الصورة..."):
             results = reader.readtext(img_np, batch_size=4 # معالجة الدُفعات لتسريع العملية
            , allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
-            draw = ImageDraw.Draw(img)
+            draw = ImageDraw.Draw(img_file)
     for (bbox, text, confidence) in results:
             top_left = tuple(bbox[0])
             bottom_right = tuple(bbox[2])
             draw.rectangle([top_left, bottom_right], outline="red", width=3)
 
-            st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_container_width=True)
+            st.image(img_file, caption="📄 الصورة مع المستطيلات حول النصوص", use_container_width=True)
 
-    return img
+    return img_file
 
     # st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
     
