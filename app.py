@@ -38,21 +38,22 @@ def get_ocr_from_camera():
     reader = easyocr.Reader(['sv', 'de'])
 
     if img_file is not None:
-        img = Image.open(img_file)
-         img_np = np.array(img)
+    # قراءة الصورة وتحويلها إلى مصفوفة NumPy
+     img = Image.open(img_file).convert("RGB")
+     img_np = np.array(img)
       
-        with st.spinner("🔍 جارٍ تحليل الصورة..."):
+    with st.spinner("🔍 جارٍ تحليل الصورة..."):
             results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
-        draw = ImageDraw.Draw(img)
-        for (bbox, text, confidence) in results:
+            draw = ImageDraw.Draw(img)
+    for (bbox, text, confidence) in results:
             top_left = tuple(bbox[0])
             bottom_right = tuple(bbox[2])
             draw.rectangle([top_left, bottom_right], outline="red", width=3)
 
-        st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_container_width=True)
+            st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_container_width=True)
 
-        return img
+    return img
 
     # st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
     
@@ -81,14 +82,14 @@ def extract_text_from_image(saved_image):
     img_np = np.array(saved_image.resize((800, 600)))
     # قراءة النصوص من الصورة
     
-  results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    results = reader.readtext(img_np, allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
     # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
     for (bbox, text, confidence) in results:
        # st.write(f"- {text} (الدقة: {confidence:.2f})")
 
     # استخراج النصوص فقط وتجميعها
-    extracted_texts = [text for (_, text, _) in results]
+     extracted_texts = [text for (_, text, _) in results]
     combined_text = "\n".join(extracted_texts)
 
     # عرض النص المجمع
