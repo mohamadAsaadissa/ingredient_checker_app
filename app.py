@@ -39,11 +39,12 @@ def get_ocr_from_camera():
 
     if img_file is not None:
     # قراءة الصورة وتحويلها إلى مصفوفة NumPy
-     img = Image.open(img_file).convert("RGB")
+     img = Image.open(img_file)
      img_np = np.array(img.resize((800, 600)))
       
     with st.spinner("🔍 جارٍ تحليل الصورة..."):
-            results = reader.readtext(img_np)
+            results = reader.readtext(img_np, batch_size=4 # معالجة الدُفعات لتسريع العملية
+           , allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
             draw = ImageDraw.Draw(img)
     for (bbox, text, confidence) in results:
