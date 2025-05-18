@@ -86,8 +86,8 @@ def extract_text_from_image(saved_image):
             batch_size=4,  # معالجة الدُفعات لتسريع العملية
             paragraph=True,  # تجميع الفقرات تلقائيًا
             decoder='beamsearch',  # خوارزمية أسرع للفك
-            detail=0 ,  # إرجاع النص فقط (بدءًا من إصدار EasyOCR 1.7)
-               allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')              
+            detail=0  # إرجاع النص فقط (بدءًا من إصدار EasyOCR 1.7)
+               )              
     # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
     for (bbox, text, confidence) in results:
