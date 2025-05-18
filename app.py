@@ -35,7 +35,8 @@ def calculate_similarity(text1, text2):
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
     img_file = st.camera_input("التقط صورة")
-     reader = easyocr.Reader(['se', 'da'])
+    reader = easyocr.Reader(['sv', 'de'])
+
     if img_file is not None:
         img = Image.open(img_file)
          img_np = np.array(saved_image.resize((800, 600)))
