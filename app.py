@@ -115,12 +115,12 @@ def extract_text_from_image(saved_image):
                            
     # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
-   for (bbox, text, confidence) in ingredients_text:
-        st.write(f"- {text} (الدقة: {confidence:.2f})")
+    for (bbox, text, confidence) in results:
+     st.write(f"- {text} (الدقة: {confidence:.2f})")
     # استخراج النصوص فقط وتجميعها
-    combined_text = "\n".join([text for (_, text, _) in ingredients_text])
+     combined_text = "\n".join([text for (_, text, _) in results])
     # عرض النص المجمع
-    st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
+     st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
 
     return combined_text
   
