@@ -140,7 +140,7 @@ st.set_page_config(page_title="تحليل المكونات الغذائية", pa
 # تفعيل دعم النصوص العربية في جميع المكونات
 support_arabic_text(all=True)
 # تهيئة القارئ مرة واحدة خارج الدالة لتحسين الأداء (يتم تحميل النماذج مرة واحدة فقط)
-reader = easyocr.Reader(['sv'], gpu=False)  # إيقاف GPU إذا لم يكن متاحًا لتجنب الأخطاء
+reader = easyocr.Reader(['sv'], gpu=True)  # إيقاف GPU إذا لم يكن متاحًا لتجنب الأخطاء
 # التحقق من وجود المفتاح في حالة الجلسة، وإذا لم يكن موجودًا، يتم تهيئته
 #if 'show_message_input' not in st.session_state:
  #   st.session_state.show_message_input = True
