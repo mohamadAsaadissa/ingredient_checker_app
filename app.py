@@ -84,7 +84,7 @@ def extract_text_from_image(saved_image):
     
     results = reader.readtext(img_np, 
             batch_size=4 # معالجة الدُفعات لتسريع العملية
-           
+           , allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
                )              
     # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
