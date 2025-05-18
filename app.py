@@ -34,27 +34,40 @@ def calculate_similarity(text1, text2):
     return similarity[0][0]
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
+    # تهيئة EasyOCR مرة واحدة خارج الدالة لتحسين الأداء
+    reader = easyocr.Reader(['sv', 'da'])  # اللغات: السويدية والدنماركية
+    
     img_file = st.camera_input("التقط صورة")
-    reader = easyocr.Reader(['sv', 'da'])
-
+    
     if img_file is not None:
-    # قراءة الصورة وتحويلها إلى مصفوفة NumPy
-   #  img = Image.open(img_file)
-     img_np = np.array(img_file.resize((800, 600)))
-      
-    with st.spinner("🔍 جارٍ تحليل الصورة..."):
-            results = reader.readtext(img_np, batch_size=4 # معالجة الدُفعات لتسريع العملية
-           , allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
-
-            draw = ImageDraw.Draw(img_file)
-    for (bbox, text, confidence) in results:
-            top_left = tuple(bbox[0])
-            bottom_right = tuple(bbox[2])
-            draw.rectangle([top_left, bottom_right], outline="red", width=3)
-
-            st.image(img_file, caption="📄 الصورة مع المستطيلات حول النصوص", use_container_width=True)
-
-    return img_file
+        # قراءة الصورة وتحويلها إلى مصفوفة NumPy
+        img = Image.open(img_file)
+        img_np = np.array(img.resize((800, 600)))  # تغيير حجم الصورة لتسريع المعالجة
+        
+        with st.spinner("🔍 جارٍ تحليل الصورة..."):
+            # قراءة النص من الصورة مع إعدادات مُحسنة
+            results = reader.readtext(
+                img_np,
+                batch_size=4,  # معالجة الدُفعات لتسريع العملية
+                allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'  # تصفية الأحرف المسموحة
+             ,paragraph=True)  # تجميع النصوص في فقرات
+            
+            # رسم المستطيلات حول النصوص المكتشفة
+            draw = ImageDraw.Draw(img)
+            for (bbox, text, confidence) in results:
+                top_left = tuple(bbox[0])
+                bottom_right = tuple(bbox[2])
+                draw.rectangle([top_left, bottom_right], outline="red", width=3)
+            
+            # عرض الصورة مع المستطيلات
+            st.image(img, caption="📄 الصورة مع المستطيلات حول النصوص", use_column_width=True)
+            
+            # إرجاع النتائج للاستخدام لاحقًا (اختياري)
+            return {
+                'image': img,
+                'text_results': results
+            }
+    return None
 
     # st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
     
@@ -85,8 +98,8 @@ def extract_text_from_image(saved_image):
     
     results = reader.readtext(img_np, 
             batch_size=4 # معالجة الدُفعات لتسريع العملية
-           , allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-               )              
+           , allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', paragraph=True)  # تجميع النصوص في فقرات
+                           
     # عرض النتائج
     st.subheader("📝 النصوص المكتشفة:")
     for (bbox, text, confidence) in results:
@@ -169,7 +182,10 @@ if st.session_state.show_message_upload:
     st.session_state.show_message_camera = False
 
 elif st.session_state.show_message_camera:
-    saved_image = get_ocr_from_camera()
+    result = get_ocr_from_camera()
+    if result:
+    st.write("✅ تم تحليل الصورة بنجاح!")
+    st.write("النصوص المكتشفة:", [text for (_, text, _) in result['text_results']])
     st.session_state.show_message_upload = False
 
 st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل المكونات لمعرفة ما إذا كانت تحتوي على مشتقات من الحشرات.")
