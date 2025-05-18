@@ -82,15 +82,7 @@ def get_ocr_from_camera():
         
 
     # إذا لم يتم التقاط صورة
-    return None
-
-
-        # إرجاع النتائج
-return combined_text
-        
-
-   
-    # st.warning("⚠️ لا توجد صورة محفوظة حتى الآن.")
+return None
     
 #رفع صورة لملصق المنتج
 def upload_image_ocr_from_folder():
