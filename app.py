@@ -34,7 +34,7 @@ def calculate_similarity(text1, text2):
     return similarity[0][0]
 # 🟢 التقاط صورة بالكاميرا
 def get_ocr_from_camera():
-    # تهيئة EasyOCR
+   # تهيئة EasyOCR
     reader = easyocr.Reader(['sv', 'da'])  # دعم السويدية والدنماركية
 
     img_file = st.camera_input("📸 التقط صورة")
@@ -55,7 +55,7 @@ def get_ocr_from_camera():
             )
 
         # رسم المستطيلات حول النصوص
-           draw = ImageDraw.Draw(saved_image)
+        draw = ImageDraw.Draw(saved_image)
 for item in results:
     if len(item) >= 2:  # إذا كان يحتوي على bbox
         bbox = item[0] if isinstance(item[0], list) else item[1]
@@ -66,12 +66,13 @@ for item in results:
             combined_text = "\n".join(extracted_texts)
 
         # عرض النتائج
-            st.subheader("📝 النصوص المكتشفة:")
+        st.subheader("📝 النصوص المكتشفة:")
         for text in extracted_texts:
             st.write(f"- {text}")
 
             st.image(img, caption="📷 الصورة مع التحديدات", use_container_width=True)
             st.text_area("📄 النص المجمع:", value=combined_text, height=200)
+
 
         # إرجاع النتائج
         return combined_text
