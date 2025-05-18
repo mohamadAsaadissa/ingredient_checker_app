@@ -75,7 +75,10 @@ def get_ocr_from_camera():
     st.text_area("📄 النص المجمع:", value=combined_text, height=200)
 
         # إرجاع النتائج
-    return  combined_text
+     return {
+            'image': img,
+            'text_results': combined_text
+        }
         
 
     # إذا لم يتم التقاط صورة
