@@ -99,7 +99,7 @@ def upload_image_ocr_from_folder():
         st.warning("لم يتم تحميل أي ملف.")
         return None
         #####
- def extract_text_from_image_vvv(saved_image):     
+ def extract_text_from_image(saved_image):     
 
     # تهيئة القارئ (يُفضل أن تكون خارج الدالة لتحسين الأداء)
     reader = easyocr.Reader(['ar', 'en'])
@@ -139,35 +139,7 @@ def upload_image_ocr_from_folder():
         'raw_results': results  # للإطلاع على البنية الكاملة
     }          
     #حويل الصورة إلى نص
-def extract_text_from_image(saved_image):
-   # إعداد EasyOCR بدعم عدة لغات
-    reader = easyocr.Reader(['sv', 'da'])
 
-    # تحويل الصورة إلى مصفوفة NumPy
-    #img_np = np.array(saved_image)
-    img_np = np.array(saved_image.resize((800, 600)))
-    # قراءة النصوص من الصورة
-    
-    results = reader.readtext(img_np, 
-            batch_size=4 # معالجة الدُفعات لتسريع العملية
-           , allowlist='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', paragraph=True)  # تجميع النصوص في فقرات
-                           
-    if not results:
-        st.warning("⚠️ لم يتم العثور على نص في الصورة.")
-        return ""
-    
-    # عرض النتائج
-    extracted_texts = []
-    for (bbox, text, confidence) in results:
-        # st.write(f"- {text} (الدقة: {confidence:.2f})")
-         extracted_texts.append(text)
-    # استخراج النصوص فقط وتجميعها
-    combined_text = "\n".join(extracted_texts)
-    # عرض النص المجمع
-    #st.text_area("📄 النص المستخرج من الصورة:", value=combined_text, height=200)
-
-    return combined_text
-  
     
 #  تحليل المكونات باستخدام GPT-4
 #def analyze_ingredients_with_gpt(ingredients_text):
@@ -253,7 +225,7 @@ extracted_text=""
 if st.button("🔍 تحليل النص", use_container_width=True):
     if saved_image:
         with st.spinner("جاري استخراج النص..."):
-             extracted_text = extract_text_from_image1_vvv(saved_image)
+             extracted_text = extract_text_from_image1(saved_image)
 
         if not extracted_text.strip():
                st.warning("لم يتم العثور على نص قابل للاستخراج في الصورة.")
