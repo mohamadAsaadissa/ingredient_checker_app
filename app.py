@@ -119,7 +119,7 @@ def extract_text_from_image(saved_image):
     
     # عرض النتائج
     extracted_texts = []
-    for (bbox, text, confidence) in results:
+    for(bbox, text, confidence) in results:
         st.write(f"- {text} (الدقة: {confidence:.2f})")
     extracted_texts.append(text)
     # استخراج النصوص فقط وتجميعها
@@ -210,7 +210,7 @@ st.write("ارفع صورة لملصق المنتج وسنقوم بتحليل ا
 
 
     # تحليل النص باستخدام GPT-4
-
+extracted_text=""
 if st.button("🔍 تحليل النص", use_container_width=True):
     if saved_image:
         with st.spinner("جاري استخراج النص..."):
